@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Flights EAAI</string>
+    <string name="acerca">About</string>
+    <string name="action_recargar">Refresh</string>
+    <string name="cargando">Loading flight data...</string>
+    <string name="destino">Destination</string>
+    <string name="hora">Time</string>
+    <string name="internacionales">International</string>
+    <string name="linea">Air Line</string>
+    <string name="llegadass">Arrivals</string>
+    <string name="nacionales">National</string>
+    <string name="nodata">It was not possible to obtain flight data, please try again</string>
+    <string name="options">Options</string>
+    <string name="procedencia">Origin</string>
+    <string name="rate">Rate app</string>
+    <string name="salidas"> Departures</string>
+    <string name="share">Share</string>
+    <string name="status">Status</string>
+    <string name="vuelo">Flight</string>
+    <string name="vuelos">Flights</string>
+    <string name="aduana">Customs</string>
+    <string name="otros">Others</string>
+    <string name="parqueo">Parking</string>
+    <string name="espere">Please wait</string>
+
+
+
+    <string name="aduana_intro">Government institution that regulates the entry of regular baggage and or traveler\'s goods . By entering Nicaragua the traveler must go through Customs where must submit their declaration of articles he brings.</string>
+
+    <string name="aduana_1">
+        <b>1. Tax extension to personal effects </b>\n
+    </string>
+    <string name="aduana_1_1">
+        Each passenger or family head will must complete the statement to be entitled to introduce to the country,
+         without payment of any tax, the following: \n\n
+        <b>PERSONAL EFFECTS SUCH AS:</b>
+
+        \n\n&#8226;&#32;Clothing, personal items, hygiene, dressing, medicine in amounts appropriate to the circumstances and needs of the traveler.\n
+        \n&#8226;&#32;A camera and one for recording images.\n
+        \n&#8226;&#32;A portable sound recording and playback.\n
+        \n&#8226;&#32;A laptop computer or typewriter.\n
+        \n&#8226;&#32;Other goods which by their quantity and nature are determined are intended for personal use.\n
+        \n&#8226;&#32;20 packs of cigarettes or 50 cigars or five hundred grams of snuff elaborated,  five liters of alcoholic beverages per passenger. Adult.\n
+        \n&#8226;&#32;Up to two kilos of sweets.\n
+        \n&#8226;&#32;Merchandise different to luggage  worth up to US $ 500.00 dollars of the United States of America.\n
+    </string>
+
+    <string name="aduana_2">
+        <b>2. Tax payment </b>\n
+    </string>
+    <string name="aduana_2_1">
+        Any passenger may have goods different luggage whose value does not exceed US $ 2000.00 US dollars, paying the corresponding taxes.
+        Such goods may not contain commercial quantities and will be subject to regulations applicable non-tariff restrictions. \n\n
+
+        In previous case of bringing goods with a higher value than indicated in the preceding paragraph shall be compulsory his dispatch by a Customs Agent.
+    </string>
+
+     <string name="aduana_3">
+        <b>3. Instructions </b>\n
+    </string>
+    <string name="aduana_3_1">
+        Each passenger or family head should complete the attached statement and submit their luggage at customs control module.\n\n
+
+       Steps to complete the form:\n\n
+
+        <b>&#45;&#32;</b> Fill boxes passenger general information.\n
+        <b>&#45;&#32;</b>If you bring goods to declare, fill in the boxes corresponding to detail and value of goods and total.\n
+        <b>&#45;&#32;</b>Note the exempt value of up to US $ 500.00 dollars per passenger or else multiplied by the number of people who form the family group traveling.\n
+        <b>&#45;&#32;</b>In box 3, the difference between the sum of the value of the goods and the value exonerated.\n
+        <b>&#45;&#32;</b>If the value is positive apply the subtotal in box 4 factor 25% of the value of your goods.\n
+    </string>
+
+
+     <string name="aduana_4">
+        <b>4. Review system</b>\n
+    </string>
+    <string name="aduana_4_1">
+        Complete and submit the declaration and at home to make the payment of the corresponding contributions.\n\n
+
+        ACTIVATE CUSTOMS CONTROL MECHANISM (TRAFFIC TAX):\n\n
+
+        <b>A) <i>Red light: </i></b> your luggage will be checked\n\n
+
+        <b>B)<i> Green light:  </i></b>your luggage will not be reviewed and may be withdrawn without further ado.\n\n
+
+        <b>Sanction </b>\n\n
+
+        Any misrepresentation in his statement leads to the application of the law establishing the office car for the Importation, Exportation and Other Regimes and the Law  of FRAUD AND SMUGGLING CUSTOMS.\n\n
+
+        For more information please to the Customs office at the Augusto C. Sandino International Airport at telephone (505) 233-1624 to 28; ext. 2316, 2318\n\n
+
+        <b>Remember:</b>\n\n
+
+        Bring money is not a lack, not state whether.\n\n\n\n
+    </string>
+
+
+    <string name="estacionamiento_">
+        It is called the public parking area intended for parking vehicles, whose service to users who visit the Augusto C. Sandino International Airport is provided. Parking is located opposite the main building of the airport and has 12 bays.\n\n
+
+        <b>Overnight Vehicle:\n\n </b>
+
+        Passengers wishing to leave their car parked at the airport, while doing their journey, may request service cashier on duty.\n
+        The cost per night elapsed amounted to C $ 150.00 cordobas of Nicaragua.\n\n
+
+
+        <b>PARKING FEES\n\n </b>
+        <b><i>LIGHT VEHICLE\n </i></b>
+        First hour or fraction  <b> C$ 20.00\n </b>
+        Each additional half hour <b>C$ 10.00\n</b>
+
+        <b><i>\n\nSEMI HEAVY VEHICLE\n</i></b>
+         First hour or fraction
+        <b>C$ 50.00\n</b>
+        Each additional half hour
+        <b>C$ 25.00\n\n</b>
+
+        <b><i>HEAVY VEHICLE\n</i></b>
+         First hour or fraction
+        <b>C$ 100.00\n</b>
+        Each additional half hour
+        <b>C$ 50.00\n\n</b>
+
+        <b><i>MOTORCYCLE\n</i></b>
+         First hour or fraction
+        <b>C$ 10.00\n</b>
+        Each additional half hour <b>C$ 5.00\n\n</b>
+
+
+        To exit you must present your parking ticket. Otherwise, the user must pay a fine of C $ 120.00.\n\n
+
+        &#62;&#62;&#32;The company is not liable for damages or lost object in your vehicle.\n\n
+
+        &#62;&#62;&#32;We reserve the right of admission.\n\n
+
+        &#62;&#62;&#32; Forbidden to drink alcohol in the parking lot.\n\n
+
+        <b>Important note:\n\n </b>
+
+        <i >
+            &#62;&#62;&#32; Light vehicles are those that fit 5 people including the driver.\n\n
+            &#62;&#62; &#32;Heavyweight vehicle, fit for 6-18 people.\n\n
+            &#62;&#62; &#32;Heavy vehicles like trucks of 8 or more tons and fit 18 or more people.\n\n\n\n
+        </i>
+    </string>
+    <string name="estacionamiento_t">Public Parking:</string>
+    <string name="despego">Departed</string>
+    <string name="demorado">Belated</string>
+    <string name="confirmado">Confirmed</string>
+    <string name="cancelado">Canceled</string>
+    <string name="atiempo">On Time</string>
+    <string name="arribo">Arrived</string>
+    <string name="abordando">Boarding</string>
+    <string name="puerta">Gate</string>
+
+</resources>

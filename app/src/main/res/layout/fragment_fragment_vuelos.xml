@@ -1,0 +1,28 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:context=".Fragment_vuelos">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/_recycler_vuelos"
+                android:layout_width="match_parent"
+                android:scrollbars="vertical"
+                android:layout_marginBottom="30dp"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/empty_message"
+                android:layout_width="match_parent"
+                android:layout_height="105dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:text="@string/nodata" />
+
+            <include layout="@layout/admob_banner"  />
+
+</FrameLayout>

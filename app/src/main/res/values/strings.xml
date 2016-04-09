@@ -1,0 +1,165 @@
+<resources>
+    <string name="app_name">Vuelos EAAI</string>
+
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="action_recargar">Recargar</string>
+    <string name="acerca">Acerca de</string>
+
+    <string name="arribo">Arribó</string>
+    <string name="despego">Despegó</string>
+    <string name="atiempo">A Tiempo</string>
+    <string name="confirmado">Confirmado</string>
+    <string name="demorado">Demorado</string>
+    <string name="cancelado">Cancelado</string>
+    <string name="abordando">Abordando</string>
+
+    <string name="puerta">Puerta:</string>
+
+    <string name="llegadass">Llegadas</string>
+    <string name="salidas">Salidas</string>
+    <string name="internacionales">Internacionales</string>
+    <string name="nacionales">Nacionales</string>
+    <string name="linea">Línea Aérea</string>
+    <string name="vuelo">Vuelo</string>
+    <string name="vuelos">Vuelos</string>
+    <string name="procedencia">Procedencia</string>
+    <string name="destino">Destino</string>
+    <string name="hora">Hora</string>
+    <string name="status">Estatus</string>
+    <string name="espere">¡Espere por favor!</string>
+    <string name="cargando">Cargando datos de vuelos&#8230;</string>
+    <string name="rate">Valorar app</string>
+    <string name="share">Compartir app</string>
+    <string name="options">Opciones</string>
+    <string name="nodata">No fue posible obtener los datos de vuelo, intenta nuevamente por favor</string>
+
+    <string name="otros">Otros</string>
+    <string name="aduana">Aduanas</string>
+    <string name="parqueo">Estacionamiento</string>
+
+    <string name="id_banner" translatable="false">ca-app-pub-9964109306515647/2914183013</string>
+
+    <string name="aduana_intro">Institución del Gobierno que regula la entrada de equipajes regulares y&#47;o mercadería del viajero. Al ingresar a Nicaragua el viajero deberá pasar por Aduana en donde deberá entregar su declaración de los artículos que trae.</string>
+
+    <string name="aduana_1">
+        <b>1. Extención de impuestos a los efectos personales </b>\n
+    </string>
+    <string name="aduana_1_1">
+        Cada pasajero o jefe de familia deberá llenar la declaración teniendo derecho a introducir al país,
+        sin pago de ningún impuesto, lo siguiente: \n\n
+        <b>EFECTOS PERSONALES TALES COMO:</b>
+
+        \n\n&#8226;&#32;Prendas de vestir, artículos de uso personal, de higiene, tocador, de recreo y medicamentos en cantidades acorde con las circunstancias y necesidades del viajero.\n
+        \n&#8226;&#32;Un aparato fotográfico y uno para grabar imágenes.\n
+        \n&#8226;&#32;Un aparato portátil de grabación y reproducción de sonido.\n
+        \n&#8226;&#32;Una computadora portátil o máquina de escribir.\n
+        \n&#8226;&#32;Otros bienes que por su cantidad y naturaleza se determinen están destinados al uso personal.\n
+        \n&#8226;&#32;20 cajetillas de cigarrillos o 50 puros o quinientos gramos de tabaco elaborado y cinco litros de bebidas alcohólicas por cada viajero. Mayor de edad.\n
+        \n&#8226;&#32;Hasta dos kilos de golosinas.\n
+        \n&#8226;&#32;Mercancía distinta del equipaje por un valor hasta de US$ 500.00 dólares de Estados Unidos de América.\n
+    </string>
+
+    <string name="aduana_2">
+        <b>2. Pago de impuestos </b>\n
+    </string>
+    <string name="aduana_2_1">
+        Todo pasajero podrá tener mercancías distintas del equipaje cuyo valor no exceda de los US$2,000.00 dólares
+        de los Estados Unidos de América, pagando las contribuciones correspondientes. Dichas mercancías no podrán contener cantidades comerciales
+        y estarán sujetas a regulaciones restricciones no arancelarias vigentes. \n\n
+
+        En caso anterior de traer mercancías con un valor mayor de lo indicado en el párrafo anterior, será obligatorio efectuar su despacho por medio de un Agente Aduanero.
+    </string>
+
+     <string name="aduana_3">
+        <b>3. Instrucciones </b>\n
+    </string>
+    <string name="aduana_3_1">
+        Cada pasajero o jefe de familia deberá llenar la declaración adjunta y someter su equipaje al módulo de control aduanero.\n\n
+
+        Pasos a llenar el formulario:\n\n
+
+        <b>&#45;&#32;</b> Llenar casillas de datos generales del pasajero.\n
+        <b>&#45;&#32;</b>En caso de traer mercancías a declarar, llenar las casillas correspondientes al detalle y valor de los bienes y totalizar.\n
+        <b>&#45;&#32;</b>Anotar el valor exonerado de hasta US$ 500.00 dólares por pasajero o en caso multiplicarlo por el número de personas que forman el grupo familiar que viaja.\n
+        <b>&#45;&#32;</b>Indicar en la casilla 3 la diferencia entre la sumatoria del valor de la mercancía y el valor exonerado.\n
+        <b>&#45;&#32;</b>Si el valor es positivo aplicar el subtotal en la casilla 4 el factor 25% sobre el valor de sus mercancías.\n
+    </string>
+
+
+     <string name="aduana_4">
+        <b>4. Sistema de revición</b>\n
+    </string>
+    <string name="aduana_4_1">
+        Llenar y presentar la declaración de aduanas y en su casa realizar el pago de las contribuciones correspondientes en caja.\n\n
+
+        ACTIVAR EL MECANISMO DE CONTROL ADUANERO (SEMÁFORO FISCAL):\n\n
+
+        <b>A) <i>Luz Roja: </i></b> su equipaje será revisado\n\n
+
+        <b>B)<i> Luz Verde:  </i></b>su equipaje no será revisado y podrá retirarse sin mayor trámite.\n\n
+
+        <b>Sanción </b>\n\n
+
+        Cualquier falsedad en su declaración conlleva a la aplicación de la Ley que establece el auto despacho para la Importación, Exportación y otros Regímenes y la Ley de DEFRAUDACIÓN Y CONTRABANDO ADUANERO.\n\n
+
+        Para mayor información sírvase a la oficina de Aduanas en el Aeropuerto Internacional Augusto C. Sandino al teléfono (505) 233-1624 al 28; ext. 2316, 2318\n\n
+
+        <b>Recuerde:</b>\n\n
+
+        Traer dinero no es una falta, no declararlo si.\n\n\n\n
+    </string>
+
+    <string name="estacionamiento_t">Parqueo Público:</string>
+    <string name="estacionamiento_">
+
+        Se denomina parqueo público al área destinada para el estacionamiento vehicular, cuyo servicio se brinda a los usuarios que visitan el Aeropuerto Internacional Augusto C. Sandino. El estacionamiento está situado frente al edificio principal de la terminal aérea y cuenta con 12 bahías.\n\n
+
+        <b>Pernoctación de Vehículo:\n\n </b>
+
+        Los pasajeros que deseen dejar su vehículo estacionado en el Aeropuerto, mientras realizan su viaje, pueden solicitar el servicio al cajero de turno.\n
+        El costo por noche transcurrida asciende a C$150.00 córdobas.\n\n
+
+
+        <b>TARIFAS DE PARQUEO\n\n </b>
+        <b><i>VEHICULO LIVIANO\n </i></b>
+        Primera Hora o Fracción  <b> C$ 20.00\n </b>
+        Cada media hora adicional <b>C$ 10.00\n</b>
+
+        <b><i>\n\nVEHICULO SEMI PESADO\n</i></b>
+        Primera Hora o Fracción
+        <b>C$ 50.00\n</b>
+        Cada media hora adicional
+        <b>C$ 25.00\n\n</b>
+
+        <b><i>VEHICULO PESADO\n</i></b>
+        Primera Hora o Fracción
+        <b>C$ 100.00\n</b>
+        Cada media hora adicional
+        <b>C$ 50.00\n\n</b>
+
+        <b><i>MOTOCICLETA\n</i></b>
+        Primera Hora o Fracción
+        <b>C$ 10.00\n</b>
+        Cada media hora adicional <b>C$ 5.00\n\n</b>
+
+
+        Para salir del estacionamiento deberá presentar su ticket. En caso contrario, el usuario deberá pagar una multa de C$ 120.00.\n\n
+
+        &#62;&#62;La empresa no se hace responsable por daños u objeto perdidos en su vehículo.\n\n
+
+        &#62;&#62;Nos reservamos el derecho de admisión.\n\n
+
+        &#62;&#62;Terminantemente prohibido ingerir licor en el parqueo.\n\n
+
+        <b>Nota importante:\n\n </b>
+
+        <i >
+            &#62;&#62;&#32; Vehículos  livianos son los que caben 5 personas incluyendo el conductor.\n\n
+            &#62;&#62; &#32;Vehículo semipesado, caben de 6 a 18 personas.\n\n
+            &#62;&#62; &#32;Vehículo pesado como camiones de 8 o más toneladas y caben 18 o más personas.\n\n\n\n
+        </i>
+
+    </string>
+
+</resources>
