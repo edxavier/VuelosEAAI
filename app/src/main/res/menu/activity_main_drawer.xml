@@ -40,7 +40,7 @@
         </menu>
     </item>
 
-
+<!--
     <item android:title="@string/options">
         <menu>
                 <item
@@ -53,6 +53,6 @@
                     android:title="@string/share" />
         </menu>
     </item>
-
+-->
 
 </menu>

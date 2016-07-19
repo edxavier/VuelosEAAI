@@ -1,5 +1,6 @@
 package com.edxavier.vueloseaai;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,22 +11,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.Select;
-import com.afollestad.materialdialogs.MaterialDialog;
+//import com.afollestad.materialdialogs.MaterialDialog;
+import com.edxavier.vueloseaai.R;
 import com.edxavier.vueloseaai.asyncTasks.AsynLLegadasInternacionales;
 import com.edxavier.vueloseaai.database.model.TaskResponse;
-import com.edxavier.vueloseaai.database.model.Vuelo;
+import com.edxavier.vueloseaai.database.model.Vuelos_tbl;
+//import com.edxavier.vueloseaai.database.model.Vuelos_tbl_Table;
 import com.edxavier.vueloseaai.database.model.adapter.AdapterVuelos;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+//import com.google.android.gms.ads.AdRequest;
+//import com.google.android.gms.ads.AdView;
+//import com.google.android.gms.analytics.GoogleAnalytics;
+//import com.google.android.gms.analytics.HitBuilders;
+//import com.google.android.gms.analytics.Tracker;
+import com.edxavier.vueloseaai.main.vuelos.events.FlightsEvents;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class Fragment_vuelos extends Fragment implements TabLayout.OnTabSelectedListener, TaskResponse {
@@ -35,14 +41,15 @@ public class Fragment_vuelos extends Fragment implements TabLayout.OnTabSelected
     private static final String ARG_PARAM2 = "param2";
     private AsynLLegadasInternacionales internacionales = new AsynLLegadasInternacionales();
     private AdapterVuelos adapterVuelos;
-    MaterialDialog pgd;
+    SweetAlertDialog pgd;
     private RecyclerView mRecyclerView;
     TabLayout tabLayout;
     TextView empty;
-    Tracker tracker;
+    TextView msg;
+    //Tracker tracker;
     long startTime;
 
-    private int tipo_vuelo = Vuelo.INTERNACIONAL;
+    private int tipo_vuelo = Vuelos_tbl.INTERNACIONAL;
 
    // private OnFragmentInteractionListener mListener;
 
@@ -70,40 +77,16 @@ public class Fragment_vuelos extends Fragment implements TabLayout.OnTabSelected
         }
         tabLayout.setOnTabSelectedListener(this);
         empty = (TextView) getActivity().findViewById(R.id.empty_message);
+        msg  = (TextView) getActivity().findViewById(R.id.act_id);
 
-        tracker = ((Application) getActivity().getApplication()).getTracker();
-        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
-        GoogleAnalytics.getInstance(getActivity()).reportActivityStart(getActivity());
-        tracker.enableAdvertisingIdCollection(true);
-        tracker.setScreenName("Pantalla Vuelos");
-        tracker.send(new HitBuilders.ScreenViewBuilder().build());
-
-
-        AdView mAdView = (AdView) getActivity().findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
-        mAdView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("ACTION")
-                        .setAction("Click ads")
-                        .setLabel("Click en publicidad")
-                        .build());
-            }
-        });
-
-
-        new Delete().from(Vuelo.class).execute();
+        //new Delete().from(Vuelo.class).execute();
         internacionales.delegate = this;
-        pgd = new MaterialDialog.Builder(getContext())
-                .title(R.string.espere)
-                .content(getResources().getString(R.string.cargando))
-                .progress(true, 0)
-                .cancelable(false)
-                .progressIndeterminateStyle(true)
-                .show();
+        pgd= new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+        pgd.getProgressHelper().setBarColor(Color.parseColor("#3f51b5"));
+        pgd.setTitleText("");
+        pgd.setContentText("Cargando vuelos...");
+        pgd.setCancelable(false);
+        pgd.show();
         startTime = System.currentTimeMillis();
         internacionales.execute(getContext());
 
@@ -124,44 +107,65 @@ public class Fragment_vuelos extends Fragment implements TabLayout.OnTabSelected
 
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        //tracker = ((EaaiApplication) getActivity().getApplication()).getTracker();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        //GoogleAnalytics.getInstance(getActivity()).reportActivityStart(getActivity());
+        //tracker.enableAdvertisingIdCollection(true);
+        //tracker.setScreenName("Pantalla Vuelos");
+        //tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
+
+       // AdView mAdView = (AdView) getActivity().findViewById(R.id.adView);
+       // AdRequest adRequest = new AdRequest.Builder().build();
+      //  mAdView.loadAd(adRequest);
     }
+
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        List<Vuelo> result = null;
+        List<Vuelos_tbl> result = null;
         switch (tab.getPosition()){
             case 0:
-                tracker.send(new HitBuilders.EventBuilder()
+                /*tracker.send(new HitBuilders.EventBuilder()
                         .setCategory("UI")
                         .setAction("Select TAB")
                         .setLabel("LLegadas")
                         .build());
+                result = SQLite.select().from(Vuelos_tbl.class)
+                        .where(Vuelos_tbl_Table.tipo_vuelo.eq(getTipo_vuelo()))
+                        .and(Vuelos_tbl_Table.flujo_vuelo.eq(Vuelos_tbl.LLEGADA)).queryList();
                 result = (new Select().from(Vuelo.class)
                         .where("tipo_vuelo = ? ", String.valueOf(getTipo_vuelo()))
                         .and("flujo_vuelo = ? ", String.valueOf(Vuelo.LLEGADA)).execute());
-                adapterVuelos = new AdapterVuelos(R.layout.row_vuelos, (ArrayList<Vuelo>) result);
+
+                adapterVuelos = new AdapterVuelos(R.layout.row_vuelos, (ArrayList<Vuelos_tbl>) result);
                 mRecyclerView.setAdapter(adapterVuelos);
                 if(adapterVuelos.getItemCount()>0)
                     empty.setVisibility(View.GONE);
                 else
                     empty.setVisibility(View.VISIBLE);
+                    */
                 break;
             case 1:
-                tracker.send(new HitBuilders.EventBuilder()
+                /*tracker.send(new HitBuilders.EventBuilder()
                         .setCategory("UI")
                         .setAction("Select TAB")
                         .setLabel("Salidas")
                         .build());
-                 result = (new Select().from(Vuelo.class)
+                result = SQLite.select().from(Vuelos_tbl.class)
+                        .where(Vuelos_tbl_Table.tipo_vuelo.eq(getTipo_vuelo()))
+                        .and(Vuelos_tbl_Table.flujo_vuelo.eq(Vuelos_tbl.SALIDA)).queryList();
+                result = (new Select().from(Vuelo.class)
                         .where("tipo_vuelo = ? ", String.valueOf(getTipo_vuelo()))
                         .and("flujo_vuelo = ? ", String.valueOf(Vuelo.SALIDA)).execute());
-                adapterVuelos = new AdapterVuelos(R.layout.row_vuelos, (ArrayList<Vuelo>) result);
+
+                adapterVuelos = new AdapterVuelos(R.layout.row_vuelos, (ArrayList<Vuelos_tbl>) result);
                 mRecyclerView.setAdapter(adapterVuelos);
                 if(adapterVuelos.getItemCount()>0)
                     empty.setVisibility(View.GONE);
                 else
                     empty.setVisibility(View.VISIBLE);
+                     */
                 break;
 
         }
@@ -179,23 +183,44 @@ public class Fragment_vuelos extends Fragment implements TabLayout.OnTabSelected
     }
 
     @Override
-    public void loadFinish(ArrayList<Vuelo> vuelos) {
-        adapterVuelos = new AdapterVuelos(R.layout.row_vuelos,vuelos);
+    public void loadFinish(FlightsEvents events) {
+        /*adapterVuelos = new AdapterVuelos(R.layout.row_vuelos,vuelos);
         mRecyclerView.setAdapter(adapterVuelos);
-        if(adapterVuelos.getItemCount()>0)
+        if(adapterVuelos.getItemCount()>0) {
             empty.setVisibility(View.GONE);
-        else
-            empty.setVisibility(View.VISIBLE);
+            Vuelos_tbl v = vuelos.get(0);
+            msg.setText( getContext().getResources().getString(R.string.act_msg)+" " + v.getMsg());
+            pgd.dismissWithAnimation();
+        }else {
+
+            List<Vuelos_tbl> result = SQLite.select().from(Vuelos_tbl.class)
+                    .where(Vuelos_tbl_Table.tipo_vuelo.eq(getTipo_vuelo()))
+                    .and(Vuelos_tbl_Table.flujo_vuelo.eq(Vuelos_tbl.LLEGADA)).queryList();
+            adapterVuelos = new AdapterVuelos(R.layout.row_vuelos, (ArrayList<Vuelos_tbl>) result);
+            mRecyclerView.setAdapter(adapterVuelos);
+            if (result.size() <= 0){
+                empty.setVisibility(View.VISIBLE);
+                pgd.dismissWithAnimation();
+            }else {
+                Vuelos_tbl v = result.get(0);
+                msg.setText(v.getMsg());
+                pgd.changeAlertType(SweetAlertDialog.WARNING_TYPE);
+                pgd.setTitleText("¡Oh vaya!")
+                        .setConfirmText("OK");
+                pgd.setContentText("No fue posible descargar los datos de vuelo, se mostraran datos del: " + v.getLast_update());
+                pgd.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+            }
+        }*/
         long loadTime = (System.currentTimeMillis() - startTime)/1000;
 
-        tracker.send(new HitBuilders.TimingBuilder()
-                .setCategory("Tiempo Carga")
-                .setValue(loadTime)
-                .setVariable("Carga de datos de vuelo")
-                .setLabel("Tiempo Carga de datos de vuelo")
-                .build());
+        //pgd.dismissWithAnimation();
         //Log.d("EDER", String.valueOf(loadTime));
-        pgd.dismiss();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -254,7 +279,7 @@ public class Fragment_vuelos extends Fragment implements TabLayout.OnTabSelected
                 if (tabLayout.getTabCount() > 0 && !tabLayout.getTabAt(0).isSelected()) {
                     tabLayout.getTabAt(0).select();
                 } else {
-                    List<Vuelo> result = (new Select().from(Vuelo.class)
+                    /*List<Vuelo> result = (new Select().from(Vuelo.class)
                             .where("tipo_vuelo = ? ", String.valueOf(getTipo_vuelo()))
                             .and("flujo_vuelo = ? ", String.valueOf(Vuelo.LLEGADA)).execute());
                     adapterVuelos = new AdapterVuelos(R.layout.row_vuelos, (ArrayList<Vuelo>) result);
@@ -263,6 +288,7 @@ public class Fragment_vuelos extends Fragment implements TabLayout.OnTabSelected
                         empty.setVisibility(View.GONE);
                     else
                         empty.setVisibility(View.VISIBLE);
+                        */
                 }
             }
 
@@ -273,14 +299,14 @@ public class Fragment_vuelos extends Fragment implements TabLayout.OnTabSelected
 
 
     public void refresh(){
-        new Delete().from(Vuelo.class).execute();
-        pgd = new MaterialDialog.Builder(getContext())
-                .title(R.string.espere)
-                .content(getResources().getString(R.string.cargando))
-                .progress(true, 0)
-                .cancelable(false)
-                .progressIndeterminateStyle(true)
-                .show();
+        //new Delete().from(Vuelo.class).execute();
+        pgd= new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+        pgd.getProgressHelper().setBarColor(Color.parseColor("#3f51b5"));
+        pgd.setTitleText("");
+        pgd.setContentText("Actualizando vuelos...");
+        pgd.setCancelable(false);
+        pgd.show();
+
         internacionales = new AsynLLegadasInternacionales();
         internacionales.delegate = this;
         startTime = System.currentTimeMillis();

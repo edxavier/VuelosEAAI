@@ -15,10 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.edxavier.vueloseaai.database.model.Vuelo;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+import com.edxavier.vueloseaai.database.model.Vuelos_tbl;
+//import com.google.android.gms.analytics.HitBuilders;
+//import com.google.android.gms.analytics.Tracker;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,7 +26,7 @@ public class MainActivity extends AppCompatActivity
     ActionBar actionBar;
     NavigationView navigationView;
     Fragment_vuelos frg_vuelos;
-    Tracker tracker;
+   // Tracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +35,9 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        tracker = ((Application) getApplication()).getTracker();
+        //tracker = ((EaaiApplication) getApplication()).getTracker();
         //Get an Analytics tracker to report app starts & uncaught exceptions etc.
-        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+        //GoogleAnalytics.getInstance(this).reportActivityStart(this);
 
         // Build and send timing.
        /* tracker.send(new HitBuilders.TimingBuilder()
@@ -94,17 +93,17 @@ public class MainActivity extends AppCompatActivity
             //loadData();
             if(frg_vuelos!=null) {
                 frg_vuelos.refresh();
-                frg_vuelos.setTipo_vuelo(Vuelo.INTERNACIONAL);
+                frg_vuelos.setTipo_vuelo(Vuelos_tbl.INTERNACIONAL);
                 navigationView.getMenu().getItem(0).getSubMenu().getItem(0).setChecked(true);
                 actionBar.setTitle(navigationView.getMenu().getItem(0).getSubMenu().getItem(0).getTitle());
             }
             return true;
         }else if(id == R.id.action_rate){
-            tracker.send(new HitBuilders.EventBuilder()
+            /*tracker.send(new HitBuilders.EventBuilder()
                     .setCategory("ACTION")
                     .setAction("RATE")
                     .setLabel("RATE APP FROM TOOLBAR")
-                    .build());
+                    .build());*/
             Uri uri = Uri.parse("market://details?id=" + getPackageName());
             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
             // To count with Play market backstack, After pressing back button,
@@ -120,11 +119,11 @@ public class MainActivity extends AppCompatActivity
             }
             return true;
         }else if(id == R.id.action_share){
-            tracker.send(new HitBuilders.EventBuilder()
+           /* tracker.send(new HitBuilders.EventBuilder()
                     .setCategory("ACTION")
                     .setAction("SHARE")
                     .setLabel("Share app from toolbar")
-                    .build());
+                    .build());*/
             try
             { Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
@@ -157,13 +156,13 @@ public class MainActivity extends AppCompatActivity
                 drawer.closeDrawer(GravityCompat.START);
                 if(frg_vuelos!=null) {
 
-                    frg_vuelos.setTipo_vuelo(Vuelo.INTERNACIONAL);
+                    frg_vuelos.setTipo_vuelo(Vuelos_tbl.INTERNACIONAL);
                     // Build and send an Event.
-                    tracker.send(new HitBuilders.EventBuilder()
+                    /*tracker.send(new HitBuilders.EventBuilder()
                             .setCategory("UI")
                             .setAction("Select Seccion")
                             .setLabel("Vuelos Internacionales")
-                            .build());
+                            .build());*/
                 }else
                     loadData();
                 return true;
@@ -171,13 +170,13 @@ public class MainActivity extends AppCompatActivity
                 item.setChecked(true);
                 actionBar.setTitle(item.getTitle());
                 drawer.closeDrawer(GravityCompat.START);
-                frg_vuelos.setTipo_vuelo(Vuelo.NACIONAL);
+                frg_vuelos.setTipo_vuelo(Vuelos_tbl.NACIONAL);
 
-                tracker.send(new HitBuilders.EventBuilder()
+                /*tracker.send(new HitBuilders.EventBuilder()
                         .setCategory("UI")
                         .setAction("Select Seccion")
                         .setLabel("Vuelos Nacionales")
-                        .build());
+                        .build());*/
                 return true;
 
             case R.id.drawer_aduana:
@@ -189,11 +188,11 @@ public class MainActivity extends AppCompatActivity
                 fragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, aduana, "aduana")
                         .commit();
-                tracker.send(new HitBuilders.EventBuilder()
+                /*tracker.send(new HitBuilders.EventBuilder()
                         .setCategory("UI")
                         .setAction("Select Seccion")
                         .setLabel("Aduana")
-                        .build());
+                        .build());*/
                 return true;
 
             case R.id.drawer_parqueo:
@@ -205,19 +204,11 @@ public class MainActivity extends AppCompatActivity
                 fragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, estacionamiento, "estacionamiento")
                         .commit();
-                tracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("UI")
-                        .setAction("Select Seccion")
-                        .setLabel("Estacionamiento")
-                        .build());
+
                 return true;
 
-            case R.id.drawer_rate:
-                tracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("ACTION")
-                        .setAction("RATE")
-                        .setLabel("RATE APP")
-                        .build());
+            case R.id.action_rate:
+
                 Uri uri = Uri.parse("market://details?id=" + getPackageName());
                 Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                 // To count with Play market backstack, After pressing back button,
@@ -232,12 +223,8 @@ public class MainActivity extends AppCompatActivity
                             Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
                 }
                 return true;
-            case R.id.drawer_share:
-                tracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("ACT")
-                        .setAction("SHARE")
-                        .setLabel("Share app")
-                        .build());
+            case R.id.action_refresh:
+
                 try
                 { Intent i = new Intent(Intent.ACTION_SEND);
                     i.setType("text/plain");

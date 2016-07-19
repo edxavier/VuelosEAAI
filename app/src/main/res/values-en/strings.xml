@@ -153,5 +153,12 @@
     <string name="arribo">Arrived</string>
     <string name="abordando">Boarding</string>
     <string name="puerta">Gate</string>
+    <string name="act_msg">Last update</string>
+    <string name="detail_activity">Flight Detail</string>
+    <string name="retry">Retry</string>
+    <string name="no_connection">No internet connection</string>
+    <string name="aviso">Notice</string>
+    <string name="notice_msg"> What a shame , but the information for this airline is not available</string>
+    <string name="download_error">Error on download</string>
 
 </resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+android:layout_height="match_parent" android:fitsSystemWindows="true"
+tools:context="com.edxavier.vueloseaai.flightDetail.FlightDetailActivity">
+
+<android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
+
+    <android.support.v7.widget.Toolbar android:id="@+id/conversation_toolbar"
+        android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary" app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+</android.support.design.widget.AppBarLayout>
+
+
+<RelativeLayout
+    android:id="@+id/mainContainer"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <WebView
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="70dp"
+        android:layout_height="match_parent"
+        android:id="@+id/webView" />
+
+    <com.google.android.gms.ads.NativeExpressAdView android:id="@+id/adViewNative"
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adUnitId="ca-app-pub-9964109306515647/9944122612"
+        ads:adSize="280x132"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        >
+    </com.google.android.gms.ads.NativeExpressAdView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/cargando"
+        android:id="@+id/detailMsg"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/detail_progress"
+        android:layout_above="@+id/detailMsg"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="false" />
+
+
+</RelativeLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>

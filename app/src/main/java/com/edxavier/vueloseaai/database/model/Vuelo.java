@@ -1,11 +1,11 @@
 package com.edxavier.vueloseaai.database.model;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
+//import com.activeandroid.Model;
+//import com.activeandroid.annotation.Column;
 
 /**
  * Created by Eder Xavier Rojas on 21/11/2015.
- */
+
 public class Vuelo extends Model {
     @Column
     private String logo;
@@ -132,3 +132,4 @@ public class Vuelo extends Model {
         this.flujo_vuelo = flujo_vuelo;
     }
 }
+ */

@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+//import com.google.android.gms.analytics.HitBuilders;
+//import com.google.android.gms.analytics.Tracker;
 
 
 public class FragmentAduana extends Fragment {
@@ -20,7 +20,7 @@ public class FragmentAduana extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    Tracker tracker;
+   // Tracker tracker;
 
     public FragmentAduana() {
         // Required empty public constructor
@@ -66,8 +66,8 @@ public class FragmentAduana extends Fragment {
         super.onActivityCreated(savedInstanceState);
         TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.sliding_tabs);
         tabLayout.setVisibility(View.INVISIBLE);
-        tracker = ((Application) getActivity().getApplication()).getTracker();
-        tracker.setScreenName("Pantalla Aduana");
-        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+        //tracker = ((EaaiApplication) getActivity().getApplication()).getTracker();
+        //tracker.setScreenName("Pantalla Aduana");
+        //tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 }

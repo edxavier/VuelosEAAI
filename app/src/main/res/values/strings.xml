@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Vuelos EAAI</string>
+    <string name="detail_activity">Detalle de vuelo</string>
 
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
@@ -15,6 +16,7 @@
     <string name="abordando">Abordando</string>
 
     <string name="puerta">Puerta:</string>
+    <string name="act_msg">Ult. act:</string>
 
     <string name="llegadass">Llegadas</string>
     <string name="salidas">Salidas</string>
@@ -39,6 +41,8 @@
     <string name="parqueo">Estacionamiento</string>
 
     <string name="id_banner" translatable="false">ca-app-pub-9964109306515647/2914183013</string>
+    <string name="id_banner_native" translatable="false">ca-app-pub-9964109306515647/9944122612</string>
+
 
     <string name="aduana_intro">Institución del Gobierno que regula la entrada de equipajes regulares y&#47;o mercadería del viajero. Al ingresar a Nicaragua el viajero deberá pasar por Aduana en donde deberá entregar su declaración de los artículos que trae.</string>
 
@@ -154,12 +158,20 @@
 
         <b>Nota importante:\n\n </b>
 
-        <i >
+        <i>
             &#62;&#62;&#32; Vehículos  livianos son los que caben 5 personas incluyendo el conductor.\n\n
             &#62;&#62; &#32;Vehículo semipesado, caben de 6 a 18 personas.\n\n
             &#62;&#62; &#32;Vehículo pesado como camiones de 8 o más toneladas y caben 18 o más personas.\n\n\n\n
         </i>
 
     </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="retry">Reintentar</string>
+    <string name="no_connection">Sin conexion a internet</string>
+    <string name="aviso">Aviso</string>
+    <string name="notice_msg">Qué pena, pero la información para esta aerolínea no está disponible</string>
+    <string name="download_error">Error en la descarga</string>
 
 </resources>

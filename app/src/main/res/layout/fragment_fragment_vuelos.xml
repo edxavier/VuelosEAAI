@@ -4,13 +4,26 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="8dp"
+    android:paddingStart="5dp"
+    android:paddingEnd="5dp"
+    android:paddingBottom="5dp"
     tools:context=".Fragment_vuelos">
+
+    <TextView
+        android:id="@+id/act_id"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:background="@color/md_blue_grey_500"
+        android:padding="5dp"
+        android:textColor="@color/md_white_1000"
+        android:layout_height="wrap_content" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/_recycler_vuelos"
                 android:layout_width="match_parent"
                 android:scrollbars="vertical"
+                android:layout_marginTop="28dp"
                 android:layout_marginBottom="30dp"
                 android:layout_height="match_parent"/>
 

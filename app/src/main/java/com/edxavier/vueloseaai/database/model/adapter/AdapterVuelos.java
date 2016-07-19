@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.edxavier.vueloseaai.R;
-import com.edxavier.vueloseaai.database.model.Vuelo;
+import com.edxavier.vueloseaai.database.model.Vuelos_tbl;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class AdapterVuelos extends RecyclerView.Adapter<AdapterVuelos.ViewHolder> {
     private int view;
     private View item;
-    private ArrayList<Vuelo> vuelos ;
+    private ArrayList<Vuelos_tbl> vuelos ;
 
 
     public interface AdapterInterfaceListener {
@@ -45,7 +45,7 @@ public class AdapterVuelos extends RecyclerView.Adapter<AdapterVuelos.ViewHolder
     }
 
 
-    public AdapterVuelos(int view, ArrayList<Vuelo> vuelos) {
+    public AdapterVuelos(int view, ArrayList<Vuelos_tbl> vuelos) {
         this.view = view;
         this.vuelos = vuelos;
 
@@ -63,7 +63,7 @@ public class AdapterVuelos extends RecyclerView.Adapter<AdapterVuelos.ViewHolder
 //Metodo donde se pasan los valores de cada fila
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Vuelo vuelo = vuelos.get(position);
+        Vuelos_tbl vuelo = vuelos.get(position);
         holder.txt_aerolinea.setText(vuelo.getLinea().trim());
         holder.txt_ciudad.setText(vuelo.getCiudad());
         holder.txt_vuelo.setText(holder.itemView.getResources().getString(R.string.vuelo)+": " + vuelo.getVuelo());
@@ -116,6 +116,8 @@ public class AdapterVuelos extends RecyclerView.Adapter<AdapterVuelos.ViewHolder
             holder.logo.setImageDrawable(holder.itemView.getResources().getDrawable(R.drawable.conviasa));
         else if(v.equals("Cubana de Aviación"))
             holder.logo.setImageDrawable(holder.itemView.getResources().getDrawable(R.drawable.cubana));
+        else if(v.equals("VECA Airlines"))
+            holder.logo.setImageDrawable(holder.itemView.getResources().getDrawable(R.drawable.veca));
         else if(v.equals("Nature Air"))
             holder.logo.setImageDrawable(holder.itemView.getResources().getDrawable(R.drawable.nature));
         else

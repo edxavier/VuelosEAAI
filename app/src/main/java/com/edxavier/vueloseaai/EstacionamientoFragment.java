@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+//import com.google.android.gms.analytics.HitBuilders;
+//import com.google.android.gms.analytics.Tracker;
 
 
 public class EstacionamientoFragment extends Fragment {
@@ -16,7 +16,7 @@ public class EstacionamientoFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    Tracker tracker;
+    //Tracker tracker;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,9 +66,9 @@ public class EstacionamientoFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.sliding_tabs);
         tabLayout.setVisibility(View.INVISIBLE);
-        tracker = ((Application) getActivity().getApplication()).getTracker();
-        tracker.setScreenName("Pantalla Estacionamiento");
-        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+       // tracker = ((EaaiApplication) getActivity().getApplication()).getTracker();
+       // tracker.setScreenName("Pantalla Estacionamiento");
+      //  tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
 }

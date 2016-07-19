@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1090934445008",
+    "firebase_url": "https://admob-app-id-8960716619.firebaseio.com",
+    "project_id": "admob-app-id-8960716619",
+    "storage_bucket": "admob-app-id-8960716619.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090934445008:android:5e95bf3bfc34bfd1",
+        "android_client_info": {
+          "package_name": "com.edxavier.vueloseaai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1090934445008-s1uffi4ltathrtbujdb96hnruu9lhrgl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANObo2NNU-w4qMXT_iB_LPMwUMHUTe6ck"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
