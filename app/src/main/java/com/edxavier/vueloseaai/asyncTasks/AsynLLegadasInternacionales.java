@@ -139,12 +139,10 @@ public class AsynLLegadasInternacionales extends AsyncTask<Context, Void, Flight
         catch(Exception e){      //if an HTTP/connection error occurs, handle JauntException.
             //Log.d("EDER_EXCEP", e.getMessage());
             event.setError(ctx.getResources().getString(R.string.download_error));
-            event.setFlights(vuelos);
-            event.setEvent_type(FlightsEvents.WEB_SCRAP_EVENT);
+
             return event;
         }
-        event.setFlights(vuelos);
-        event.setEvent_type(FlightsEvents.WEB_SCRAP_EVENT);
+
         event.setError(null);
         return event;
     }

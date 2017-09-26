@@ -31,8 +31,6 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 
 public class Fragment_vuelos extends Fragment implements TabLayout.OnTabSelectedListener, TaskResponse {
     // TODO: Rename parameter arguments, choose names that match
@@ -41,7 +39,6 @@ public class Fragment_vuelos extends Fragment implements TabLayout.OnTabSelected
     private static final String ARG_PARAM2 = "param2";
     private AsynLLegadasInternacionales internacionales = new AsynLLegadasInternacionales();
     private AdapterVuelos adapterVuelos;
-    SweetAlertDialog pgd;
     private RecyclerView mRecyclerView;
     TabLayout tabLayout;
     TextView empty;
@@ -81,12 +78,7 @@ public class Fragment_vuelos extends Fragment implements TabLayout.OnTabSelected
 
         //new Delete().from(Vuelo.class).execute();
         internacionales.delegate = this;
-        pgd= new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
-        pgd.getProgressHelper().setBarColor(Color.parseColor("#3f51b5"));
-        pgd.setTitleText("");
-        pgd.setContentText("Cargando vuelos...");
-        pgd.setCancelable(false);
-        pgd.show();
+
         startTime = System.currentTimeMillis();
         internacionales.execute(getContext());
 
@@ -300,12 +292,6 @@ public class Fragment_vuelos extends Fragment implements TabLayout.OnTabSelected
 
     public void refresh(){
         //new Delete().from(Vuelo.class).execute();
-        pgd= new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
-        pgd.getProgressHelper().setBarColor(Color.parseColor("#3f51b5"));
-        pgd.setTitleText("");
-        pgd.setContentText("Actualizando vuelos...");
-        pgd.setCancelable(false);
-        pgd.show();
 
         internacionales = new AsynLLegadasInternacionales();
         internacionales.delegate = this;

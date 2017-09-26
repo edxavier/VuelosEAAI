@@ -160,5 +160,19 @@
     <string name="aviso">Notice</string>
     <string name="notice_msg"> What a shame , but the information for this airline is not available</string>
     <string name="download_error">Error on download</string>
+    <string name="nodeparturedata">It was not possible to obtain departures data, please try again</string>
+    <string name="noarrivalsdata">It was not possible to obtain arrivals data, please try again</string>
+    <string name="bugermenu">Navigation</string>
+    <string name="rate_sec">Please when you have time, give us a review on google play</string>
+    <string name="share_sec">Share this app with someone you think might be of interest to you</string>
+    <string name="update">Update</string>
+    <string name="update_desc">You can update the data by sliding the list down</string>
+
+    <string name="remove_ads">Remove ads</string>
+    <string name="report_issues">Contact</string>
+    <string name="airport">International Airport  Augusto C. Sandino</string>
+    <string name="purchased_msg">Thank you for supporting this application.</string>
+    <string name="purchased_err_msg">Payment was not made</string>
+
 
 </resources>

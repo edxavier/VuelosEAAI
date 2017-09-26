@@ -25,7 +25,7 @@ tools:context="com.edxavier.vueloseaai.flightDetail.FlightDetailActivity">
 
 
     <WebView
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_marginBottom="70dp"
         android:layout_height="match_parent"
@@ -38,27 +38,42 @@ tools:context="com.edxavier.vueloseaai.flightDetail.FlightDetailActivity">
         ads:adUnitId="ca-app-pub-9964109306515647/9944122612"
         ads:adSize="280x132"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        >
+        android:layout_centerHorizontal="true">
+
     </com.google.android.gms.ads.NativeExpressAdView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/cargando"
+        android:textSize="12sp"
+        android:textColor="@color/md_blue_grey_500"
         android:id="@+id/detailMsg"
         android:gravity="center"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detail_progress"
+        <ImageView
+            android:id="@+id/error_icon"
+            android:visibility="gone"
+            android:layout_margin="8dp"
+            android:layout_above="@+id/detailMsg"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_airplanemode_inactive"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+    <com.tuyenmonkey.mkloader.MKLoader
+        android:id="@+id/progress"
+        android:layout_margin="8dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:mk_type="Whirlpool"
         android:layout_above="@+id/detailMsg"
         android:layout_centerHorizontal="true"
-        android:indeterminate="false" />
+        android:indeterminate="false"
+        app:mk_color="@color/md_blue_grey_600" />
+
 
 
 </RelativeLayout>

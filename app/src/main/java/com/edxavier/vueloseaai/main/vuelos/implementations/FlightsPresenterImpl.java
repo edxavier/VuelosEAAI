@@ -1,73 +1,99 @@
 package com.edxavier.vueloseaai.main.vuelos.implementations;
 
+import android.content.Context;
 import android.util.Log;
 
-import com.edxavier.vueloseaai.lib.GrobotEventbus;
+import com.edxavier.vueloseaai.database.model.Vuelos_tbl;
 import com.edxavier.vueloseaai.lib.EventBusIface;
+import com.edxavier.vueloseaai.lib.RxBus;
 import com.edxavier.vueloseaai.main.vuelos.contracts.FlightsInteractor;
 import com.edxavier.vueloseaai.main.vuelos.contracts.FlightsPresenter;
+import com.edxavier.vueloseaai.main.vuelos.contracts.FlightsRepository;
 import com.edxavier.vueloseaai.main.vuelos.events.FlightsEvents;
 import com.edxavier.vueloseaai.main.vuelos.ui.FlightsView;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by Eder Xavier Rojas on 26/06/2016.
  */
 public class FlightsPresenterImpl implements FlightsPresenter {
-    private EventBusIface eventBus;
     private FlightsView view;
-    private FlightsInteractor interactor;
+    private FlightsRepository repository;
+    private RxBus rxBus;
+    private Disposable subs;
+    private Context ctx;
 
-    public FlightsPresenterImpl(EventBusIface eventBus, FlightsView view, FlightsInteractor interactor) {
-        this.eventBus = eventBus;
+
+    public FlightsPresenterImpl( FlightsView view, Context context) {
         this.view = view;
-        this.interactor = interactor;
+        this.ctx = context;
+        this.repository = new FlightsRepositoryImpl(this.ctx);
+        this.rxBus = RxBus.getInstance();
     }
 
     @Override
     public void onResume() {
-        eventBus.register(this);
+        if(subs.isDisposed())
+            setupSubscription();
+    }
+
+    private void setupSubscription(){
+
+        subs = rxBus.register(FlightsEvents.class, events -> {
+            if(events.getEventType() == FlightsEvents.DATA &&
+                    events.getEventDirection() == view.getFlightDirection()){
+                getFlightsData(view.getFlightDirection());
+            }else  if(events.getEventType() == FlightsEvents.ERROR &&
+                    events.getEventDirection() == view.getFlightDirection()){
+                getFlightsData(view.getFlightDirection());
+                view.onError("");
+            }
+        });
     }
 
     @Override
     public void onPause() {
-            eventBus.unregister(this);
+        subs.dispose();
     }
 
     @Override
     public void onDestroy() {
         view = null;
+        rxBus = null;
+        subs.dispose();
+    }
+
+    @Override
+    public void onCreate() {
+        setupSubscription();
     }
 
     @Override
     public void getFlightsData(int direction) {
-        if(view!=null){
-            view.showProgress(true);
-        }
-        interactor.execute(direction);
+        if(direction == Vuelos_tbl.LLEGADA)
+            view.startSecuence();
+        List<Vuelos_tbl> res = repository.getFlightsData(direction);
+        view.showProgress(false);
+        if(!res.isEmpty()) {
+            view.setContent(res);
+            view.showEmptyMsg(false);
+        }else
+            view.showEmptyMsg(true);
     }
 
     @Override
-    @Subscribe
-    public void onEventMainThread(FlightsEvents event) {
-        String errMsg = event.getError();
-        if(view!=null && event.getEvent_type()==FlightsEvents.SQLITE_EVENT){
-            //Log.e("EDER", "SQLITE_EVENT: "+ String.valueOf(event.getFlights().size()));
-            if(event.getFlights().size()>0){
-                view.showElements(false);
-            }else{
-                view.showElements(true);
-            }
-
-            if(errMsg!=null){
-                view.onError(errMsg);
-            }else {
-                if(event.getDirection()==view.getFlightDirection()) {
-                    view.setContent(event.getFlights());
-                }
-            }
-        }
+    public void getArrivalsFlightsFromWeb() {
+        repository.getArrivalsFlightsFromWeb();
     }
+
+    @Override
+    public void getDeparturesFlightsFromWeb() {
+        repository.getDeparturesFlightsFromWeb();
+    }
+
 }

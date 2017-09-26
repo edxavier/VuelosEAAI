@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface DetailView {
 
-    public void loadData();
+    void loadData();
     void showElements(boolean show);
     void showProgress(boolean show);
     void onError(String error);

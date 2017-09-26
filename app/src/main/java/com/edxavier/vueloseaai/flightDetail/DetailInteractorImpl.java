@@ -9,8 +9,8 @@ import com.edxavier.vueloseaai.flightDetail.contracts.DetailRepository;
 public class DetailInteractorImpl implements DetailInteractor {
     DetailRepository repository;
 
-    public DetailInteractorImpl(DetailRepository repository) {
-        this.repository = repository;
+    public DetailInteractorImpl() {
+        this.repository = new DetailRepositoryimpl();
     }
 
     @Override

@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "1090934445008",
-    "firebase_url": "https://admob-app-id-8960716619.firebaseio.com",
-    "project_id": "admob-app-id-8960716619",
-    "storage_bucket": "admob-app-id-8960716619.appspot.com"
+    "project_number": "616263766142",
+    "firebase_url": "https://apps-locales.firebaseio.com",
+    "project_id": "apps-locales",
+    "storage_bucket": "apps-locales.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1090934445008:android:5e95bf3bfc34bfd1",
+        "mobilesdk_app_id": "1:616263766142:android:5e95bf3bfc34bfd1",
         "android_client_info": {
           "package_name": "com.edxavier.vueloseaai"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1090934445008-s1uffi4ltathrtbujdb96hnruu9lhrgl.apps.googleusercontent.com",
+          "client_id": "616263766142-l74u06h3ibtp45kel5mihubcc4qp36qq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edxavier.vueloseaai",
+            "certificate_hash": "a5d863cb83d34d00cdf6805094aa6786838c6a55"
+          }
+        },
+        {
+          "client_id": "616263766142-td1d70ulai5h80f29vhfr4pogbnvrj0b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyANObo2NNU-w4qMXT_iB_LPMwUMHUTe6ck"
+          "current_key": "AIzaSyDMBzMQmLZfy8-2OvkkiaUNYIaCziJIKTs"
         }
       ],
       "services": {
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616263766142-td1d70ulai5h80f29vhfr4pogbnvrj0b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

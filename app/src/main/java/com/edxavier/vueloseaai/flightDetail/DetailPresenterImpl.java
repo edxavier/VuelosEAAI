@@ -10,34 +10,30 @@ import com.edxavier.vueloseaai.lib.EventBusIface;
  * Created by Eder Xavier Rojas on 28/06/2016.
  */
 public class DetailPresenterImpl implements DetailPresenter {
-    private EventBusIface eventBus;
     private DetailView view;
     private DetailInteractor interactor;
 
-    public DetailPresenterImpl(EventBusIface eventBus, DetailView view, DetailInteractor interactor) {
-        this.eventBus = eventBus;
+    public DetailPresenterImpl( DetailView view) {
         this.view = view;
-        this.interactor = interactor;
+        this.interactor = new DetailInteractorImpl();
     }
 
     @Override
     public void onResume() {
-        eventBus.register(this);
+
     }
 
     @Override
     public void onCreate() {
-        eventBus.register(this);
+
     }
 
     @Override
-    public void onPause() {
-        eventBus.unregister(this);
+    public void onPause(){
     }
 
     @Override
     public void onDestroy() {
-        eventBus.unregister(this);
         view = null;
     }
 

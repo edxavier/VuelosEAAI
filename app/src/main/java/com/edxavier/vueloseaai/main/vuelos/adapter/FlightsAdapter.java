@@ -15,7 +15,7 @@ import com.edxavier.vueloseaai.lib.FlightsHelper;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -33,17 +33,17 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.logo_linea)
+        @BindView(R.id.logo_linea)
         ImageView logoLinea;
-        @Bind(R.id.vuelo)
+        @BindView(R.id.vuelo)
         TextView vuelo;
-        @Bind(R.id.aerolinea)
+        @BindView(R.id.aerolinea)
         TextView aerolinea;
-        @Bind(R.id.ciudad)
+        @BindView(R.id.ciudad)
         TextView ciudad;
-        @Bind(R.id.estatus)
+        @BindView(R.id.estatus)
         TextView estatus;
-        @Bind(R.id.hora)
+        @BindView(R.id.hora)
         TextView hora;
 
         private View view;
@@ -96,6 +96,10 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
 
     public void setFlightsItems(List<Vuelos_tbl> dataset) {
         flightsDataset.addAll(dataset);
+    }
+    public void clearFlightsItems() {
+        flightsDataset.clear();
+
     }
 
 }

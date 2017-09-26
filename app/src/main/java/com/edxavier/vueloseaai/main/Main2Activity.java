@@ -94,16 +94,7 @@ public class Main2Activity extends AppCompatActivity implements NavigationView.O
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
-            //loadData();
-            if(frg_vuelos!=null) {
-                frg_vuelos.refresh();
-                frg_vuelos.setTipo_vuelo(Vuelos_tbl.INTERNACIONAL);
-                navigationView.getMenu().getItem(0).getSubMenu().getItem(0).setChecked(true);
-                actionBar.setTitle(navigationView.getMenu().getItem(0).getSubMenu().getItem(0).getTitle());
-            }
-            return true;
-        }else if(id == R.id.action_rate){
+        if(id == R.id.action_rate){
             Uri uri = Uri.parse("market://details?id=" + getPackageName());
             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
             // To count with Play market backstack, After pressing back button,

@@ -9,6 +9,8 @@ public interface FlightsPresenter {
     void onResume();
     void onPause();
     void onDestroy();
+    void onCreate();
     void getFlightsData(int _direction);
-    void onEventMainThread(FlightsEvents event);
+    void getArrivalsFlightsFromWeb();
+    void getDeparturesFlightsFromWeb();
 }

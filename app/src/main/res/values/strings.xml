@@ -34,7 +34,6 @@
     <string name="rate">Valorar app</string>
     <string name="share">Compartir app</string>
     <string name="options">Opciones</string>
-    <string name="nodata">No fue posible obtener los datos de vuelo, intenta nuevamente por favor</string>
 
     <string name="otros">Otros</string>
     <string name="aduana">Aduanas</string>
@@ -173,5 +172,22 @@
     <string name="aviso">Aviso</string>
     <string name="notice_msg">Qué pena, pero la información para esta aerolínea no está disponible</string>
     <string name="download_error">Error en la descarga</string>
+    <string name="nodeparturedata"> No fue posible obtener los datos de salidas, intenta nuevamente por favor</string>
+    <string name="noarrivalsdata">No fue posible obtener los datos de llegadas, intenta nuevamente por favor</string>
+    <string name="nodata">No fue posible obtener los datos de vuelo, intenta nuevamente por favor</string>
+    <string name="bugermenu">Navegación</string>
+    <string name="rate_sec">Por favor cuando tengas tiempo, concédenos una reseña en google play</string>
+    <string name="share_sec">Comparte esta aplicación a quien creas pueda ser de interés</string>
+    <string name="update">Actualiza</string>
+    <string name="update_desc">Puedes actualizar los datos deslizando la lista hacia bajo</string>
+    <string name="report_issues">Contactar</string>
+    <string name="remove_ads">Quitar publicidad</string>
+
+    <string name="admob_interstical" translatable="false">ca-app-pub-9964109306515647/5255561812</string>
+    <string name="airport">Aeropuerto Internacional Augusto C. Sandino</string>
+    <string name="purchased_msg">Gracias por apoyar esta aplicacion.</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="purchased_err_msg">No se realizó el pago</string>
+
 
 </resources>

@@ -1,19 +1,33 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
 
-def dbflow_version = "3.0.0-beta6"
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'android-apt'
+
+def dbflow_version = "4.1.1"
 
 android {
     compileOptions.incremental = false
-    compileSdkVersion 24
-    buildToolsVersion "23.0.3"
-
+    compileSdkVersion 25
+    buildToolsVersion '25.0.3'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     defaultConfig {
         applicationId "com.edxavier.vueloseaai"
-        minSdkVersion 14
-        targetSdkVersion 24
-        versionCode 6
-        versionName "1.3"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 13
+        versionName "1.4.5.1709"
         multiDexEnabled true
     }
     packagingOptions {
@@ -27,6 +41,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "APP_BILLING_PUB_KEY", project.property('APP_BILLING_PUB_KEY')
+            buildConfigField "String", "MERCHANT_ID", project.property('MERCHANT_ID')
+        }
+        debug{
+            buildConfigField "String", "APP_BILLING_PUB_KEY", project.property('APP_BILLING_PUB_KEY')
+            buildConfigField "String", "MERCHANT_ID", project.property('MERCHANT_ID')
         }
     }
 }
@@ -35,6 +55,7 @@ repositories {
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url "https://jitpack.io" }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 
@@ -43,46 +64,54 @@ dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-
+    //compile project(':library')
     //compile 'org.jsoup:jsoup:1.8.3'
     //compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
 
 
-    compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
-    compile "org.greenrobot:eventbus:$rootProject.ext.eventbusVersion"
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    apt 'com.jakewharton:butterknife-compiler:8.5.1'
 
-    apt "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
-
-    //compile "javax.annotation:jsr250-api:$rootProject.ext.jsr250Version"
-
-    compile "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
-
+    compile 'io.reactivex.rxjava2:rxjava:2.0.7'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
     apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     // use kapt for kotlin apt
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
 
-    // kotlin extensions
-    compile "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${dbflow_version}"
 
     //compile 'com.google.android.gms:play-services:9.0.2'
     //compile 'com.google.android.gms:play-services-analytics:9.0.0'
     compile 'org.glassfish:javax.annotation:10.0-b28'
 
+    compile 'com.google.firebase:firebase-core:10.2.6'
+    compile 'com.google.firebase:firebase-ads:10.2.6'
+    compile 'com.google.firebase:firebase-crash:10.2.6'
 
-    compile 'com.google.firebase:firebase-core:9.0.2'
-    compile 'com.google.firebase:firebase-ads:9.0.2'
+    compile 'cn.pedant.sweetalert:library:1.3'
 
     compile 'com.android.support:multidex:1.0.1'
 
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:design:24.0.0'
-    compile 'com.android.support:recyclerview-v7:24.0.0'
-    compile 'com.android.support:cardview-v7:24.0.0'
-    compile 'com.android.support:support-v4:24.0.0'
-    compile 'cn.pedant.sweetalert:library:1.3'
-    compile 'com.google.android.gms:play-services-appindexing:9.0.2'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.tuyenmonkey:mkloader:1.3.0'
+    compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
+    compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
+
+    //compile 'com.github.aakira:expandable-layout:1.4.3@aar'
+    compile 'com.anjlab.android.iab.v3:library:1.0.44'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
+    compile('com.crashlytics.sdk.android:answers:1.3.13@aar') {
+        transitive = true;
+    }
+
 }
 
 

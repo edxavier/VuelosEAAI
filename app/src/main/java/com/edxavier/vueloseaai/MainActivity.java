@@ -88,17 +88,7 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
-            //loadData();
-            if(frg_vuelos!=null) {
-                frg_vuelos.refresh();
-                frg_vuelos.setTipo_vuelo(Vuelos_tbl.INTERNACIONAL);
-                navigationView.getMenu().getItem(0).getSubMenu().getItem(0).setChecked(true);
-                actionBar.setTitle(navigationView.getMenu().getItem(0).getSubMenu().getItem(0).getTitle());
-            }
-            return true;
-        }else if(id == R.id.action_rate){
+        if(id == R.id.action_rate){
             /*tracker.send(new HitBuilders.EventBuilder()
                     .setCategory("ACTION")
                     .setAction("RATE")
@@ -223,7 +213,7 @@ public class MainActivity extends AppCompatActivity
                             Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
                 }
                 return true;
-            case R.id.action_refresh:
+            case 333:
 
                 try
                 { Intent i = new Intent(Intent.ACTION_SEND);

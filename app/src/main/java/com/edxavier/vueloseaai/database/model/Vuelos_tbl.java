@@ -57,7 +57,7 @@ public class Vuelos_tbl extends BaseModel{
         if(num.equals("304.jpg") || num.equals("318.jpg"))
             linea = "Copa Airlines";
         if(num.equals("306.jpg"))
-            linea = "Avianca";
+            linea = "Avianca Star Alliance";
         if(num.equals("308.jpg"))
             linea = "Delta Airlines";
         if(num.equals("309.jpg"))
@@ -67,7 +67,7 @@ public class Vuelos_tbl extends BaseModel{
         if(num.equals("311.jpg"))
             linea = "Spirit Airlines";
         if(num.equals("312.jpg"))
-            linea = "Avianca";
+            linea = "Avianca Star Alliance";
         if(num.equals("313.jpg"))
             linea = "CanJet";
         if(num.equals("315.jpg"))
@@ -80,7 +80,10 @@ public class Vuelos_tbl extends BaseModel{
             linea = "Cubana de Aviación";
         if(num.equals("333.jpg"))
             linea = "VECA Airlines";
-
+        if(num.equals("334.jpg")|| num.equals("336.jpg") || num.equals("342.jpg"))
+            linea = "Avianca Star Alliance";
+        if(num.equals("338.jpg"))
+            linea = "Volaris";
         return linea;
     }
     public String getLogo() {

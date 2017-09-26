@@ -9,19 +9,18 @@ import java.util.List;
  */
 public class FlightsEvents {
     private String error;
-    private List<Vuelos_tbl> flights;
-    private int event_type;
-    private int direction;
-    public static int WEB_SCRAP_EVENT = 0;
-    public static int SQLITE_EVENT = 1;
+    private int eventType;
+    private int eventDirection;
+    public static int ERROR = 0;
+    public static int DATA = 1;
 
-
-    public int getDirection() {
-        return direction;
+    public FlightsEvents( int eventType, int eventDirection, String error) {
+        this.error = error;
+        this.eventType = eventType;
+        this.eventDirection = eventDirection;
     }
 
-    public void setDirection(int direction) {
-        this.direction = direction;
+    public FlightsEvents() {
     }
 
     public String getError() {
@@ -32,19 +31,19 @@ public class FlightsEvents {
         this.error = error;
     }
 
-    public List<Vuelos_tbl> getFlights() {
-        return flights;
+    public int getEventType() {
+        return eventType;
     }
 
-    public void setFlights(List<Vuelos_tbl> flights) {
-        this.flights = flights;
+    public void setEventType(int eventType) {
+        this.eventType = eventType;
     }
 
-    public int getEvent_type() {
-        return event_type;
+    public int getEventDirection() {
+        return eventDirection;
     }
 
-    public void setEvent_type(int event_type) {
-        this.event_type = event_type;
+    public void setEventDirection(int eventDirection) {
+        this.eventDirection = eventDirection;
     }
 }

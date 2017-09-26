@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface MainView {
 
-    public void loadData();
+    void loadData();
     void showElements(boolean show);
     void showProgress(boolean show);
     void onError(String error);

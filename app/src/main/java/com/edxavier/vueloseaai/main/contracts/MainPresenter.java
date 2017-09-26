@@ -11,5 +11,4 @@ public interface MainPresenter {
     void onPause();
     void onDestroy();
     void getFlightsData();
-    void onEventMainThread(FlightsEvents event);
 }

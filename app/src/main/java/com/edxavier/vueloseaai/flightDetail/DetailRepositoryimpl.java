@@ -10,12 +10,8 @@ import com.edxavier.vueloseaai.lib.EventBusIface;
  * Created by Eder Xavier Rojas on 28/06/2016.
  */
 public class DetailRepositoryimpl implements DetailRepository {
-    private EventBusIface eventBus;
-    private Activity view;
 
-    public DetailRepositoryimpl(EventBusIface eventBus, Activity view) {
-        this.eventBus = eventBus;
-        this.view = view;
+    public DetailRepositoryimpl() {
     }
 
     @Override

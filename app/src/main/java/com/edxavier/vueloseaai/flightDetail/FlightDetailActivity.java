@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -11,55 +12,52 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.edxavier.vueloseaai.EaaiApplication;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
 import com.edxavier.vueloseaai.R;
 import com.edxavier.vueloseaai.asyncTasks.AsyncTaskContract;
 import com.edxavier.vueloseaai.flightDetail.contracts.DetailPresenter;
 import com.edxavier.vueloseaai.flightDetail.contracts.DetailView;
-import com.edxavier.vueloseaai.flightDetail.di.DetailComponent;
 import com.edxavier.vueloseaai.flightDetail.event.DetailEvent;
 import com.edxavier.vueloseaai.lib.DetectConnection;
+import com.edxavier.vueloseaai.main.FlightsActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.NativeExpressAdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.tuyenmonkey.mkloader.MKLoader;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.inject.Inject;
-
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class FlightDetailActivity extends AppCompatActivity implements DetailView, AsyncTaskContract {
 
-    @Bind(R.id.adViewNative)
-    NativeExpressAdView adViewNative;
-    //@Bind(R.id.layout)
-    LinearLayout layout;
-    @Bind(R.id.conversation_toolbar)
+    @BindView(R.id.conversation_toolbar)
     Toolbar conversationToolbar;
-
-    @Inject
-    DetailPresenter presenter;
-    @Inject
-    FirebaseAnalytics analytics;
-    @Bind(R.id.detailMsg)
-    TextView detailMsg;
-    @Bind(R.id.detail_progress)
-    ProgressBar detailProgress;
-    @Bind(R.id.webView)
+    @BindView(R.id.webView)
     WebView webView;
-    Bundle analitycParams = new Bundle();
-    @Bind(R.id.mainContainer)
+    @BindView(R.id.adViewNative)
+    NativeExpressAdView adViewNative;
+    @BindView(R.id.detailMsg)
+    TextView detailMsg;
+
+    @BindView(R.id.mainContainer)
     RelativeLayout mainContainer;
+
+    FirebaseAnalytics analytics;
+    Bundle analitycParams = new Bundle();
+    DetailPresenter presenter;
+    @BindView(R.id.progress)
+    MKLoader progress;
+    @BindView(R.id.error_icon)
+    ImageView errorIcon;
 
     private String vuelo, linea;
     private String SPIRIT = "https://www.spirit.com/FlightStatus.aspx";
@@ -75,39 +73,39 @@ public class FlightDetailActivity extends AppCompatActivity implements DetailVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flight_detail);
         ButterKnife.bind(this);
+        analytics = FirebaseAnalytics.getInstance(this);
         //adViewNative = (NativeExpressAdView) findViewById(R.id.adViewNative);.addTestDevice("45D8AEB3B66116F8F24E001927292BD5")
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adViewNative.loadAd(adRequest);
-        NativeExpressAdView ads = new NativeExpressAdView(this);
+        //NativeExpressAdView ads = new NativeExpressAdView(this);
+        presenter = new DetailPresenterImpl(this);
 
         int width = getWindowManager().getDefaultDisplay().getWidth();
         int height = getWindowManager().getDefaultDisplay().getHeight();
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-    /*
-        Log.e("EDER_xdpi", String.valueOf((int) dm.xdpi));
-        Log.e("EDER_ydpi", String.valueOf((int) dm.ydpi));
-        Log.e("EDER_density", String.valueOf((int) dm.density));
-        Log.e("EDER_densityDpi", String.valueOf((int) dm.densityDpi));
 
-        Log.e("EDER_width", String.valueOf(width));
-        Log.e("EDER_height", String.valueOf(height));
-*/
-        ads.setAdSize(new AdSize(280, 132));
-        ads.setAdUnitId("ca-app-pub-9964109306515647/9944122612");
+        //ads.setAdSize(new AdSize(280, 132));
+        //ads.setAdUnitId("ca-app-pub-9964109306515647/9944122612");
         //ads.loadAd(adRequest);
         //layout.addView(ads);
         setupToolbar();
-        setupInjection();
 
         Intent intent = getIntent();
         vuelo = intent.getStringExtra("vuelo");
         linea = intent.getStringExtra("aerolinea");
+        boolean isPurchased = intent.getBooleanExtra("isPurchased", false);
+        if(!isPurchased){
+
+            AdRequest adRequest = new AdRequest.Builder()
+                    //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    .build();
+            adViewNative.loadAd(adRequest);
+        }
 
         loadWebview();
-        analitycParams.putString("DetailActivity", "DetailActivity");
-        analytics.logEvent("Detail_activity", analitycParams);
-
+        analitycParams.putString("linea", linea);
+        analytics.logEvent("activity_details", analitycParams);
+        Answers.getInstance().logContentView(new ContentViewEvent().putContentType("Pantalla")
+        .putContentName("Detalle de vuelo").putContentId(vuelo).putCustomAttribute("Aerolinea", linea));
     }
 
     private void loadWebview() {
@@ -118,7 +116,7 @@ public class FlightDetailActivity extends AppCompatActivity implements DetailVie
             @Override
             public void onPageFinished(WebView view, String url) {
                 detailMsg.setVisibility(View.GONE);
-                detailProgress.setVisibility(View.GONE);
+                progress.setVisibility(View.GONE);
                 // webView.loadUrl("javascript:document.getElementByClassName('#mainContent_LabelOrigen')");
                 webView.setVisibility(View.VISIBLE);
             }
@@ -129,29 +127,20 @@ public class FlightDetailActivity extends AppCompatActivity implements DetailVie
             detailMsg.setText(getResources().getString(R.string.no_connection));
             detailMsg.setTextSize(14);
             detailMsg.setTextColor(Color.RED);
-            detailProgress.setVisibility(View.GONE);
+            progress.setVisibility(View.GONE);
+            errorIcon.setVisibility(View.VISIBLE);
+            errorIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_signal_wifi_off));
             return;
         }
         if (setupURL().length() > 10) {
             webView.loadUrl(setupURL());
         } else {
-            analitycParams.putString("DetailActivity", "No data avialable");
-            analytics.logEvent("error_load_query_page", analitycParams);
-            SweetAlertDialog pgd = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
-            pgd.setTitleText(getResources().getString(R.string.aviso));
-            pgd.setContentText(getResources().getString(R.string.notice_msg));
-            pgd.setCancelable(false);
-            pgd.show();
-            detailMsg.setVisibility(View.GONE);
-            detailProgress.setVisibility(View.GONE);
+            detailMsg.setText(getString(R.string.notice_msg));
+            detailMsg.setTextSize(14);
+            errorIcon.setVisibility(View.VISIBLE);
+            progress.setVisibility(View.GONE);
         }
 
-    }
-
-    private void setupInjection() {
-        EaaiApplication app = (EaaiApplication) getApplication();
-        DetailComponent component = app.getDetailComponent(this, this);
-        component.inject(this);
     }
 
 
@@ -160,24 +149,32 @@ public class FlightDetailActivity extends AppCompatActivity implements DetailVie
         Date today = new Date();
         SimpleDateFormat dt;
         String vueloNum = vuelo.split(" ")[1];
-        if (linea.equals("Avianca")) {
-            dt = new SimpleDateFormat("dd/MM/yyyy");
-            URL = AVIANCA + "VLO=" + vueloNum + "&FEC=" + dt.format(today) + "#mainContent_panelUpdateConsultaEquipaje";
-        } else if (linea.equals("American Airlines")) {
-            dt = new SimpleDateFormat("yyyy,MM,dd");
-            URL = AMERICAN + vueloNum + "|" + dt.format(today) + "#mainFlightStatus";
-        } else if (linea.equals("Copa Airlines")) {
-            dt = new SimpleDateFormat("yyyyMMdd");
-            URL = COPA + "trAcid=" + vueloNum + "&trDate=" + dt.format(today) + "#ffStatus";
-        } else if (linea.equals("Delta Airlines")) {
-            dt = new SimpleDateFormat("yyyy-MM-dd");
-            URL = DELTA + "flightNumber=" + vueloNum + "&flightDate=" + dt.format(today) + "#status-header";
-        } else if (linea.equals("Spirit Airlines")) {
-            dt = new SimpleDateFormat("yyyy-MM-dd");
-            URL = SPIRIT;
-        } else if (linea.equals("Aeromexico")) {
-            dt = new SimpleDateFormat("yyyyMMdd");
-            URL = AEROMEXICO + "fn=" + vueloNum + "&depdate=" + dt.format(today);
+        switch (linea) {
+            case "Avianca":
+            case "Avianca Star Alliance":
+                dt = new SimpleDateFormat("dd/MM/yyyy");
+                URL = AVIANCA + "VLO=" + vueloNum + "&FEC=" + dt.format(today) + "#mainContent_panelUpdateConsultaEquipaje";
+                break;
+            case "American Airlines":
+                dt = new SimpleDateFormat("yyyy,MM,dd");
+                URL = AMERICAN + vueloNum + "|" + dt.format(today) + "#mainFlightStatus";
+                break;
+            case "Copa Airlines":
+                dt = new SimpleDateFormat("yyyyMMdd");
+                URL = COPA + "trAcid=" + vueloNum + "&trDate=" + dt.format(today) + "#ffStatus";
+                break;
+            case "Delta Airlines":
+                dt = new SimpleDateFormat("yyyy-MM-dd");
+                URL = DELTA + "flightNumber=" + vueloNum + "&flightDate=" + dt.format(today) + "#status-header";
+                break;
+            case "Spirit Airlines":
+                dt = new SimpleDateFormat("yyyy-MM-dd");
+                URL = SPIRIT;
+                break;
+            case "Aeromexico":
+                dt = new SimpleDateFormat("yyyyMMdd");
+                URL = AEROMEXICO + "fn=" + vueloNum + "&depdate=" + dt.format(today);
+                break;
         }
         return URL;
     }

@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragmentContainer"
     tools:context=".main.vuelos.ui.FlightsFragment">
 
@@ -15,37 +16,75 @@
         android:textColor="@color/md_white_1000"
         android:layout_height="wrap_content" />
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_marginTop="28dp"
+        android:id="@+id/layout_swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/_recycler_vuelos"
-        android:layout_width="match_parent"
-        android:scrollbars="vertical"
-        android:layout_marginTop="28dp"
-        android:layout_marginBottom="30dp"
-        android:layout_height="match_parent"/>
+            android:id="@+id/_recycler_vuelos"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:layout_marginTop="28dp"
+            android:layout_marginBottom="30dp"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 
     <LinearLayout
-        android:visibility="visible"
-        android:id="@+id/layout_msg"
+        android:id="@+id/layout_loading"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
+        <com.tuyenmonkey.mkloader.MKLoader
+            android:layout_margin="8dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:mk_type="Sharingan"
+            android:layout_gravity="center"
+            app:mk_color="@color/md_blue_grey_600" />
+
+
         <TextView
-            android:drawableTop="@android:drawable/ic_menu_info_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/nodata"
-            android:id="@+id/empty_message"
+            android:textColor="@color/md_blue_grey_500"
+            android:text="@string/cargando"
             android:gravity="center"
+            android:textSize="12sp"
+            android:id="@+id/loading_message"
             android:layout_gravity="center" />
-
-
     </LinearLayout>
 
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/layout_empty"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
+        <ImageView
+            app:srcCompat="@drawable/ic_airplanemode_inactive"
+            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:padding="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/md_blue_grey_500"
+            android:text="@string/nodata"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:layout_gravity="center" />
+    </LinearLayout>
 
 </FrameLayout>
