@@ -22,7 +22,7 @@
     <string name="salidas">Salidas</string>
     <string name="internacionales">Internacionales</string>
     <string name="nacionales">Nacionales</string>
-    <string name="linea">Línea Aérea</string>
+    <string name="lineap">Línea Aérea</string>
     <string name="vuelo">Vuelo</string>
     <string name="vuelos">Vuelos</string>
     <string name="procedencia">Procedencia</string>
@@ -188,6 +188,7 @@
     <string name="purchased_msg">Gracias por apoyar esta aplicacion.</string>
     <string name="ok" translatable="false">OK</string>
     <string name="purchased_err_msg">No se realizó el pago</string>
+    <string name="publicidad">Publicidad</string>
 
 
 </resources>

@@ -29,7 +29,7 @@
                 <item
                     android:icon="@drawable/ic_coins_on_hand"
                     android:id="@+id/ac_drawer_remove_ads"
-                    android:visible="true"
+                    android:visible="false"
                     android:title="@string/remove_ads" />
                 <item
                     android:icon="@drawable/ic_send"

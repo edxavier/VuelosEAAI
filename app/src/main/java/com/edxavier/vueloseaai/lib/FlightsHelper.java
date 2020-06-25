@@ -41,6 +41,8 @@ public class FlightsHelper {
             drawable = context.getResources().getDrawable(R.drawable.start_alliance);
         else if(flight.equals("Volaris"))
             drawable = context.getResources().getDrawable(R.drawable.volaris);
+        else if(flight.equals("Air Transat"))
+            drawable = context.getResources().getDrawable(R.drawable.air_transat);
         else
             drawable = context.getResources().getDrawable(R.drawable.ic_airplane_take_off_100);
 

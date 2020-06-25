@@ -1,20 +1,17 @@
 package com.edxavier.vueloseaai;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 //import com.afollestad.materialdialogs.MaterialDialog;
-import com.edxavier.vueloseaai.R;
 import com.edxavier.vueloseaai.asyncTasks.AsynLLegadasInternacionales;
 import com.edxavier.vueloseaai.database.model.TaskResponse;
 import com.edxavier.vueloseaai.database.model.Vuelos_tbl;
@@ -26,9 +23,7 @@ import com.edxavier.vueloseaai.database.model.adapter.AdapterVuelos;
 //import com.google.android.gms.analytics.HitBuilders;
 //import com.google.android.gms.analytics.Tracker;
 import com.edxavier.vueloseaai.main.vuelos.events.FlightsEvents;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -66,13 +61,6 @@ public class Fragment_vuelos extends Fragment implements TabLayout.OnTabSelected
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        tabLayout = (TabLayout) getActivity().findViewById(R.id.sliding_tabs);
-        tabLayout.setVisibility(View.VISIBLE);
-        if(tabLayout.getTabCount()<=0) {
-            tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.llegadass)));
-            tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.salidas)));
-        }
-        tabLayout.setOnTabSelectedListener(this);
         empty = (TextView) getActivity().findViewById(R.id.empty_message);
         msg  = (TextView) getActivity().findViewById(R.id.act_id);
 

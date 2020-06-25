@@ -1,12 +1,8 @@
 package com.edxavier.vueloseaai.main.pageAdapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
-
-import com.edxavier.vueloseaai.database.model.Vuelos_tbl;
-import com.edxavier.vueloseaai.main.vuelos.ui.FlightsFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 /**
  * Created by Eder Xavier Rojas on 17/06/2016.

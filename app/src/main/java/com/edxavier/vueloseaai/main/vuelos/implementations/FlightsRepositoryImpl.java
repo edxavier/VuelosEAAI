@@ -62,7 +62,7 @@ public class FlightsRepositoryImpl implements FlightsRepository {
     public void getArrivalsFlightsFromWeb() {
         Flowable.fromCallable(() -> {
 
-                Document doc = Jsoup.connect("http://www.eaai.com.ni/fids/read_vuelos_dias_fids.php?option=A").get();
+                Document doc = Jsoup.connect("https://www.eaai.com.ni/fids/read_vuelos_dias_fids.php?option=A").get();
 
                 //ya que solo existe una tabla  en la pagina, seleccionamos directamentes todas las filas
                 Elements rows = doc.select("tr");
@@ -103,6 +103,7 @@ public class FlightsRepositoryImpl implements FlightsRepository {
                     FlightsEvents events = new FlightsEvents(FlightsEvents.DATA, Vuelos_tbl.LLEGADA, null);
                     rxBus.post(events);
                 }, throwable -> {
+                    Log.e("EDER", throwable.getMessage());
                     FlightsEvents events = new FlightsEvents(FlightsEvents.ERROR, Vuelos_tbl.LLEGADA,
                             throwable.getMessage());
                     rxBus.post(events);
@@ -113,7 +114,7 @@ public class FlightsRepositoryImpl implements FlightsRepository {
     public void getDeparturesFlightsFromWeb() {
             Flowable.fromCallable(() -> {
 
-                Document doc = Jsoup.connect("http://www.eaai.com.ni/fids/read_vuelos_dias_fids.php?option=D").get();
+                Document doc = Jsoup.connect("https://www.eaai.com.ni/fids/read_vuelos_dias_fids.php?option=D").get();
                 //ya que solo existe una tabla  en la pagina, seleccionamos directamentes todas las filas
                 Elements rows = doc.select("tr");
                 rows.remove(0);

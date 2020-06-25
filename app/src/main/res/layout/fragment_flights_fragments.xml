@@ -16,7 +16,7 @@
         android:textColor="@color/md_white_1000"
         android:layout_height="wrap_content" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_marginTop="28dp"
         android:id="@+id/layout_swipe"
         android:layout_width="match_parent"
@@ -24,14 +24,14 @@
         >
 
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/_recycler_vuelos"
             android:layout_width="match_parent"
             android:scrollbars="vertical"
             android:layout_marginTop="28dp"
             android:layout_marginBottom="30dp"
             android:layout_height="match_parent"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 
@@ -42,24 +42,26 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
-        <com.tuyenmonkey.mkloader.MKLoader
-            android:layout_margin="8dp"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            app:mk_type="Sharingan"
-            android:layout_gravity="center"
-            app:mk_color="@color/md_blue_grey_600" />
 
+        <com.wang.avi.AVLoadingIndicatorView
+            app:indicatorColor="@color/md_blue_700"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            app:indicatorName="BallScaleMultipleIndicator"
+            />
 
         <TextView
+            android:id="@+id/loading_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/md_blue_grey_500"
-            android:text="@string/cargando"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-condensed"
             android:gravity="center"
-            android:textSize="12sp"
-            android:id="@+id/loading_message"
-            android:layout_gravity="center" />
+            android:lineSpacingExtra="8sp"
+            android:text="@string/cargando"
+            android:textColor="@color/md_blue_grey_500"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -70,20 +72,20 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
-        <ImageView
-            app:srcCompat="@drawable/ic_airplanemode_inactive"
+        <androidx.appcompat.widget.AppCompatImageView
+            app:srcCompat="@drawable/ic_shipping"
             android:layout_gravity="center"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
 
         <TextView
             android:padding="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/md_blue_grey_500"
+            android:textColor="@color/md_blue_grey_700"
             android:text="@string/nodata"
             android:gravity="center"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:layout_gravity="center" />
     </LinearLayout>
 

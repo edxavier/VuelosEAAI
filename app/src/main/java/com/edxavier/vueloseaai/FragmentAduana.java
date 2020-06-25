@@ -1,8 +1,8 @@
 package com.edxavier.vueloseaai;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
+
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,8 +64,6 @@ public class FragmentAduana extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.sliding_tabs);
-        tabLayout.setVisibility(View.INVISIBLE);
         //tracker = ((EaaiApplication) getActivity().getApplication()).getTracker();
         //tracker.setScreenName("Pantalla Aduana");
         //tracker.send(new HitBuilders.ScreenViewBuilder().build());

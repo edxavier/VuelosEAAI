@@ -2,34 +2,32 @@ package com.edxavier.vueloseaai.main;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
-import com.crashlytics.android.Crashlytics;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.crashlytics.android.answers.PurchaseEvent;
@@ -38,7 +36,6 @@ import com.crashlytics.android.answers.ShareEvent;
 import com.edxavier.vueloseaai.BuildConfig;
 import com.edxavier.vueloseaai.EstacionamientoFragment;
 import com.edxavier.vueloseaai.FragmentAduana;
-import com.edxavier.vueloseaai.MainActivity;
 import com.edxavier.vueloseaai.R;
 import com.edxavier.vueloseaai.database.model.Vuelos_tbl;
 import com.edxavier.vueloseaai.lib.MySnackbar;
@@ -60,35 +57,30 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.pedant.SweetAlert.SweetAlertDialog;
-import io.fabric.sdk.android.Fabric;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class FlightsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView, OnItemClickListener, BillingProcessor.IBillingHandler {
+public class FlightsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView, OnItemClickListener, BillingProcessor.IBillingHandler, AHBottomNavigation.OnTabSelectedListener {
 
 
     @BindView(R.id.toolbar)
     public Toolbar toolbar;
-    @BindView(R.id.sliding_tabs)
-    TabLayout slidingTabs;
     @BindView(R.id.container)
     ViewPager container;
-    @BindView(R.id.fragmentContainer)
-    FrameLayout fragmentContainer;
     @BindView(R.id.adView)
     AdView adView;
-    @BindView(R.id.loading_message)
-    TextView loadingMessage;
-    @BindView(R.id.layout_loading)
-    LinearLayout layoutLoading;
     @BindView(R.id.coordinatorContainer)
     CoordinatorLayout coordinatorContainer;
     @BindView(R.id.nav_view)
     NavigationView navView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+    @BindView(R.id.fragmentContainer)
+    FrameLayout fragmentContainer;
+
+    @BindView(R.id.bottom_navigation)
+    AHBottomNavigation bottomNavigation;
 
     MainPresenter presenter;
     private FragmentManager manager;
@@ -120,11 +112,27 @@ public class FlightsActivity extends AppCompatActivity implements NavigationView
         setupToolbar();
         setupPageAdapter();
         showBanner();
+
+
+// Create items
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(getString(R.string.llegadass), R.drawable.ic_plane_landing);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(getString(R.string.salidas), R.drawable.ic_takeoff_the_plane);
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        // Change colors
+        bottomNavigation.setAccentColor(ContextCompat.getColor(this, R.color.md_white_1000));
+        bottomNavigation.setInactiveColor(ContextCompat.getColor(this, R.color.md_white_1000_75));
+        // Set background color
+        bottomNavigation.setDefaultBackgroundColor(ContextCompat.getColor(this, R.color.md_indigo_500));
+// Add items
+        bottomNavigation.addItem(item1);
+        bottomNavigation.addItem(item2);
+        bottomNavigation.setOnTabSelectedListener(this);
+
     }
 
     private void showBanner() {
         AdRequest adRequest = new AdRequest.Builder()
-                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
 
         adView.setAdListener(new AdListener() {
@@ -132,12 +140,7 @@ public class FlightsActivity extends AppCompatActivity implements NavigationView
             public void onAdLoaded() {
                 super.onAdLoaded();
                 adView.setVisibility(View.VISIBLE);
-                if(pagerAdapter!=null){
-                    try {
-                        ((FlightsFragment) pagerAdapter.getItem(0)).setRecyclerPadding(110);
-                        ((FlightsFragment) pagerAdapter.getItem(1)).setRecyclerPadding(110);
-                    }catch (Exception ignored){}
-                }
+
             }
         });
         adView.loadAd(adRequest);
@@ -166,13 +169,9 @@ public class FlightsActivity extends AppCompatActivity implements NavigationView
         navView = (NavigationView) findViewById(R.id.nav_view);
         navView.getMenu().getItem(0).setChecked(true);
         navView.setNavigationItemSelectedListener(this);
-        if (slidingTabs.getTabCount() <= 0) {
-            slidingTabs.addTab(slidingTabs.newTab().setText(getResources().getString(R.string.llegadass)));
-            slidingTabs.addTab(slidingTabs.newTab().setText(getResources().getString(R.string.salidas)));
-        }
-        try {
+               try {
             actionBar = getSupportActionBar();
-            actionBar.setTitle(navView.getMenu().getItem(0).getSubMenu().getItem(0).getTitle());
+            actionBar.setTitle(getResources().getString(R.string.internacionales));
         } catch (Exception ignored) {
         }
     }
@@ -194,7 +193,18 @@ public class FlightsActivity extends AppCompatActivity implements NavigationView
         String[] titles = new String[]{getString(R.string.llegadass), getString(R.string.salidas)};
         pagerAdapter = new MainPagerAdapter(manager, titles, fragments);
         container.setAdapter(pagerAdapter);
-        slidingTabs.setupWithViewPager(container);
+        container.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            @Override
+            public void onPageSelected(int position) {
+                bottomNavigation.setCurrentItem(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
+        //slidingTabs.setupWithViewPager(container);
     }
 
 
@@ -212,14 +222,11 @@ public class FlightsActivity extends AppCompatActivity implements NavigationView
                 drawerLayout.closeDrawer(GravityCompat.START);
                 manager.getFragments().clear();
                 container.removeAllViews();
-                if (slidingTabs.getTabCount() <= 1) {
-                    slidingTabs.removeAllTabs();
-                    slidingTabs.addTab(slidingTabs.newTab().setText(getResources().getString(R.string.llegadass)));
-                    slidingTabs.addTab(slidingTabs.newTab().setText(getResources().getString(R.string.salidas)));
-                }
+                container.setVisibility(View.VISIBLE);
+                bottomNavigation.setVisibility(View.VISIBLE);
+                fragmentContainer.setVisibility(View.GONE);
                 setupPageAdapter();
-                slidingTabs.setVisibility(View.VISIBLE);
-                slidingTabs.setEnabled(true);
+
                 if(adView.getVisibility() == View.VISIBLE){
                     if(pagerAdapter!=null){
                         ((FlightsFragment) pagerAdapter.getItem(0)).setRecyclerPadding(100);
@@ -237,13 +244,17 @@ public class FlightsActivity extends AppCompatActivity implements NavigationView
                 drawerLayout.closeDrawer(GravityCompat.START);
 
                 manager.getFragments().clear();
-                container.removeAllViews();
+                container.removeAllViewsInLayout();
+                container.setVisibility(View.GONE);
+                bottomNavigation.setVisibility(View.GONE);
+                fragmentContainer.setVisibility(View.VISIBLE);
 
                 Fragment[] fragmentsa = new Fragment[]{new FragmentAduana()};
-                String[] titlesa = new String[]{getString(R.string.aduana)};
-                MainPagerAdapter pagerAdaptera = new MainPagerAdapter(getSupportFragmentManager(), titlesa, fragmentsa);
+                manager.beginTransaction().replace(R.id.fragmentContainer, fragmentsa[0]).commit();
+                //String[] titlesa = new String[]{getString(R.string.aduana)};
+                //MainPagerAdapter pagerAdaptera = new MainPagerAdapter(getSupportFragmentManager(), titlesa, fragmentsa);
 
-                container.setAdapter(pagerAdaptera);
+                //container.setAdapter(pagerAdaptera);
                 //slidingTabs.setupWithViewPager(container);
 
                 analytics.logEvent("aduana_section", null);
@@ -254,13 +265,17 @@ public class FlightsActivity extends AppCompatActivity implements NavigationView
                 if(!bp.isPurchased(FlightsActivity.PRODUCT))
                     requestAds();
                 manager.getFragments().clear();
-                container.removeAllViews();
+                container.removeAllViewsInLayout();
+                container.setVisibility(View.GONE);
+                bottomNavigation.setVisibility(View.GONE);
+                fragmentContainer.setVisibility(View.VISIBLE);
 
                 Fragment[] fragmentse = new Fragment[]{new EstacionamientoFragment()};
-                String[] titlese = new String[]{getString(R.string.parqueo)};
+                //String[] titlese = new String[]{getString(R.string.parqueo)};
+                manager.beginTransaction().replace(R.id.fragmentContainer, fragmentse[0]).commit();
 
-                MainPagerAdapter pagerAdaptere = new MainPagerAdapter(manager, titlese, fragmentse);
-                container.setAdapter(pagerAdaptere);
+                //MainPagerAdapter pagerAdaptere = new MainPagerAdapter(manager, titlese, fragmentse);
+                //container.setAdapter(pagerAdaptere);
                 //slidingTabs.setupWithViewPager(container);
 
                 item.setChecked(true);
@@ -352,9 +367,9 @@ public class FlightsActivity extends AppCompatActivity implements NavigationView
     @Override
     public void showProgress(boolean show) {
         if (show) {
-            layoutLoading.setVisibility(View.VISIBLE);
+            //layoutLoading.setVisibility(View.VISIBLE);
         } else {
-            layoutLoading.setVisibility(View.GONE);
+            //layoutLoading.setVisibility(View.GONE);
         }
     }
 
@@ -431,14 +446,18 @@ public class FlightsActivity extends AppCompatActivity implements NavigationView
         if(Prefs.getInt("num_show_readings", 0) >= Prefs.getInt("show_after", 8)) {
             Prefs.putInt("num_show_readings", 0);
             Random r = new Random();
-            int Low = 8;int High = 12;
+            int Low = 6;int High = 10;
             int rnd = r.nextInt(High-Low) + Low;
             Prefs.putInt("show_after", rnd);
             if(mInterstitialAd.isLoaded()) {
-                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
-                pDialog.setTitleText("Cargando publicidad...");
-                pDialog.setCancelable(false);
+                MaterialDialog dlg = new MaterialDialog.Builder(this)
+                        .title(R.string.publicidad)
+                        .cancelable(false)
+                        .progress(true, 0)
+                        .progressIndeterminateStyle(true)
+                        .build();
                 try {
+                    dlg.show();
                     Observable.interval(1, TimeUnit.MILLISECONDS).take(1800)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -446,21 +465,19 @@ public class FlightsActivity extends AppCompatActivity implements NavigationView
                                     },
                                     throwable -> {
                                     },() -> {
-                                        pDialog.dismissWithAnimation();
+                                        dlg.dismiss();
                                         mInterstitialAd.show();
                                         Answers.getInstance().logCustom(new CustomEvent("Admob")
                                                 .putCustomAttribute("Show", "Insterstical"));
                                     });
                 }catch (Exception ignored){}
-                pDialog.show();
-
             }
         }
     }
 
     public void loadInterstical(){
         AdRequest adRequest = new AdRequest.Builder()
-                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 //.addTestDevice("0B307F34E3DDAF6C6CAB28FAD4084125")
                 //.addTestDevice("B0FF48A19BF36BD2D5DCD62163C64F45")
                 .build();
@@ -468,19 +485,6 @@ public class FlightsActivity extends AppCompatActivity implements NavigationView
             @Override
             public void onAdFailedToLoad(int i) {
                 super.onAdFailedToLoad(i);
-                if(i == AdRequest.ERROR_CODE_INTERNAL_ERROR) {
-                    Answers.getInstance().logCustom(new CustomEvent("Admob")
-                            .putCustomAttribute("AdFailedToLoad", "ERROR_CODE_INTERNAL_ERROR"));
-                }if(i == AdRequest.ERROR_CODE_INVALID_REQUEST ) {
-                    Answers.getInstance().logCustom(new CustomEvent("Admob")
-                            .putCustomAttribute("AdFailedToLoad", "ERROR_CODE_INVALID_REQUEST"));
-                }if(i == AdRequest.ERROR_CODE_NETWORK_ERROR ) {
-                    Answers.getInstance().logCustom(new CustomEvent("Admob")
-                            .putCustomAttribute("AdFailedToLoad", "ERROR_CODE_NETWORK_ERROR"));
-                }if(i == AdRequest.ERROR_CODE_NO_FILL ) {
-                    Answers.getInstance().logCustom(new CustomEvent("Admob")
-                            .putCustomAttribute("AdFailedToLoad", "ERROR_CODE_NO_FILL"));
-                }
                 try {
                     Observable.interval(1, TimeUnit.SECONDS).take(4)
                             .subscribeOn(Schedulers.io())
@@ -493,6 +497,12 @@ public class FlightsActivity extends AppCompatActivity implements NavigationView
                                     });
                 }catch (Exception ignored){}
             }
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                loadInterstical();
+            }
         });
         mInterstitialAd.loadAd(adRequest);
     }
@@ -503,4 +513,21 @@ public class FlightsActivity extends AppCompatActivity implements NavigationView
             super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    @Override
+    public boolean onTabSelected(int position, boolean wasSelected) {
+        switch (position){
+            case 0:
+                container.setCurrentItem(0);
+                if(!bp.isPurchased(FlightsActivity.PRODUCT))
+                    requestAds();
+                break;
+            case 1:
+                container.setCurrentItem(1);
+                if(!bp.isPurchased(FlightsActivity.PRODUCT))
+                    requestAds();
+                break;
+        }
+        return true;
+    }
 }

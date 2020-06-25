@@ -3,16 +3,15 @@ package com.edxavier.vueloseaai.flightDetail;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,12 +23,10 @@ import com.edxavier.vueloseaai.flightDetail.contracts.DetailPresenter;
 import com.edxavier.vueloseaai.flightDetail.contracts.DetailView;
 import com.edxavier.vueloseaai.flightDetail.event.DetailEvent;
 import com.edxavier.vueloseaai.lib.DetectConnection;
-import com.edxavier.vueloseaai.main.FlightsActivity;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.NativeExpressAdView;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.tuyenmonkey.mkloader.MKLoader;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,8 +40,6 @@ public class FlightDetailActivity extends AppCompatActivity implements DetailVie
     Toolbar conversationToolbar;
     @BindView(R.id.webView)
     WebView webView;
-    @BindView(R.id.adViewNative)
-    NativeExpressAdView adViewNative;
     @BindView(R.id.detailMsg)
     TextView detailMsg;
 
@@ -55,9 +50,11 @@ public class FlightDetailActivity extends AppCompatActivity implements DetailVie
     Bundle analitycParams = new Bundle();
     DetailPresenter presenter;
     @BindView(R.id.progress)
-    MKLoader progress;
+    AVLoadingIndicatorView progress;
     @BindView(R.id.error_icon)
-    ImageView errorIcon;
+    AppCompatImageView errorIcon;
+    @BindView(R.id.adView)
+    AdView adView;
 
     private String vuelo, linea;
     private String SPIRIT = "https://www.spirit.com/FlightStatus.aspx";
@@ -93,19 +90,18 @@ public class FlightDetailActivity extends AppCompatActivity implements DetailVie
         vuelo = intent.getStringExtra("vuelo");
         linea = intent.getStringExtra("aerolinea");
         boolean isPurchased = intent.getBooleanExtra("isPurchased", false);
-        if(!isPurchased){
-
+        if (!isPurchased) {
             AdRequest adRequest = new AdRequest.Builder()
                     //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                     .build();
-            adViewNative.loadAd(adRequest);
+            adView.loadAd(adRequest);
         }
 
         loadWebview();
         analitycParams.putString("linea", linea);
         analytics.logEvent("activity_details", analitycParams);
         Answers.getInstance().logContentView(new ContentViewEvent().putContentType("Pantalla")
-        .putContentName("Detalle de vuelo").putContentId(vuelo).putCustomAttribute("Aerolinea", linea));
+                .putContentName("Detalle de vuelo").putContentId(vuelo).putCustomAttribute("Aerolinea", linea));
     }
 
     private void loadWebview() {
@@ -129,7 +125,8 @@ public class FlightDetailActivity extends AppCompatActivity implements DetailVie
             detailMsg.setTextColor(Color.RED);
             progress.setVisibility(View.GONE);
             errorIcon.setVisibility(View.VISIBLE);
-            errorIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_signal_wifi_off));
+            //errorIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_signal_wifi_off));
+            errorIcon.setImageResource(R.drawable.ic_signal_wifi_off);
             return;
         }
         if (setupURL().length() > 10) {

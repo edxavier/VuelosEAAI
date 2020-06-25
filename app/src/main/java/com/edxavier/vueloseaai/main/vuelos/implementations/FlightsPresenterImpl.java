@@ -51,7 +51,7 @@ public class FlightsPresenterImpl implements FlightsPresenter {
             }else  if(events.getEventType() == FlightsEvents.ERROR &&
                     events.getEventDirection() == view.getFlightDirection()){
                 getFlightsData(view.getFlightDirection());
-                view.onError("");
+                view.onError(events.getError());
             }
         });
     }

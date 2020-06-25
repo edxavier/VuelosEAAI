@@ -13,14 +13,20 @@ public class DetectConnection {
     public static boolean isWifiConnected(Context context) {
         ConnectivityManager connManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo netInfo = null;
+        if (connManager != null) {
+            netInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        }
         return ((netInfo != null) && netInfo.isConnected());
     }
 
     public static boolean isMobileConnected(Context context) {
         ConnectivityManager connManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        NetworkInfo netInfo = null;
+        if (connManager != null) {
+            netInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        }
         return ((netInfo != null) && netInfo.isConnected());
     }
 }

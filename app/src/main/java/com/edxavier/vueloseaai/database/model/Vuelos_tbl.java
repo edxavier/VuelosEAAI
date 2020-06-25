@@ -72,7 +72,7 @@ public class Vuelos_tbl extends BaseModel{
             linea = "CanJet";
         if(num.equals("315.jpg"))
             linea = "Nature Air";
-        if(num.equals("317.jpg"))
+        if(num.equals("317.jpg") || num.equals("348.jpg"))
             linea = "Conviasa";
         if(num.equals("319.jpg"))
             linea = "La Costeña";

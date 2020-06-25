@@ -1,18 +1,15 @@
 package com.edxavier.vueloseaai.main.vuelos.ui;
 
 import android.content.Intent;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +26,7 @@ import com.edxavier.vueloseaai.main.vuelos.adapter.FlightsAdapter;
 import com.edxavier.vueloseaai.main.vuelos.adapter.OnItemClickListener;
 import com.edxavier.vueloseaai.main.vuelos.contracts.FlightsPresenter;
 import com.edxavier.vueloseaai.main.vuelos.implementations.FlightsPresenterImpl;
-import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +113,9 @@ public class FlightsFragment extends Fragment implements FlightsView, OnItemClic
     }
 
     @Override
+    public void startSecuence() {}
+
+    @Override
     public int getFlightDirection() {
         return this.direction;
     }
@@ -156,6 +153,7 @@ public class FlightsFragment extends Fragment implements FlightsView, OnItemClic
     @Override
     public void onError(String error) {
         //Snackbar.make(fragmentContainer, error, Snackbar.LENGTH_LONG).show();
+        Log.e("EDER",error);
         if (direction == Vuelos_tbl.LLEGADA)
             MySnackbar.alert(fragmentContainer, getString(R.string.noarrivalsdata), Snackbar.LENGTH_LONG).show();
         else
@@ -183,7 +181,7 @@ public class FlightsFragment extends Fragment implements FlightsView, OnItemClic
     @Override
     public void onItemClick(Vuelos_tbl vuelo) {
         FlightsActivity activity = (FlightsActivity) getActivity();
-        if(!activity.bp.isPurchased(FlightsActivity.PRODUCT))
+        if (activity != null && !activity.bp.isPurchased(FlightsActivity.PRODUCT))
             activity.requestAds();
         Intent intent = new Intent(getActivity(), FlightDetailActivity.class);
         intent.putExtra("vuelo", vuelo.getVuelo());
@@ -212,35 +210,4 @@ public class FlightsFragment extends Fragment implements FlightsView, OnItemClic
         super.onPause();
     }
 
-    public void startSecuence() {
-        if (!Prefs.getBoolean("secuence", false)) {
-            FlightsActivity activity = (FlightsActivity) getActivity();
-
-            final Display display = activity.getWindowManager().getDefaultDisplay();
-            final Drawable droid = ContextCompat.getDrawable(activity, R.drawable.ic_tap);
-            final Rect droidTarget = new Rect(0, 0, droid.getIntrinsicWidth() * 2, droid.getIntrinsicHeight() * 2);
-            // Using deprecated methods makes you look way cool
-            droidTarget.offset(display.getWidth() / 2, display.getHeight() / 2);
-            final int[] sec = {0};
-            new TapTargetSequence(getActivity())
-                    .targets(
-                            TapTarget.forToolbarMenuItem(activity.toolbar, R.id.action_rate, getString(R.string.rate), getString(R.string.rate_sec))
-                                    .dimColor(android.R.color.black)
-                                    .outerCircleColor(R.color.md_green_500)
-                                    .targetCircleColor(android.R.color.black)
-                                    .transparentTarget(true)
-                                    .textColor(android.R.color.white).cancelable(false),
-                            TapTarget.forToolbarMenuItem(activity.toolbar, R.id.action_share, getString(R.string.share), getString(R.string.share_sec))
-                                    .dimColor(android.R.color.black)
-                                    .outerCircleColor(R.color.md_blue_500)
-                                    .targetCircleColor(android.R.color.black)
-                                    .transparentTarget(true)
-                                    .textColor(android.R.color.white).cancelable(false),
-                            TapTarget.forBounds(droidTarget, getString(R.string.update), getString(R.string.update_desc))
-                                    .cancelable(false)
-                                    .icon(droid)
-                    ).start();
-            Prefs.putBoolean("secuence", true);
-        }
-    }
 }

@@ -4,30 +4,31 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'io.fabric.tools:gradle:1.31.2'
     }
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'android-apt'
+//apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'android-apt'
 
 def dbflow_version = "4.1.1"
 
 android {
     compileOptions.incremental = false
-    compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.edxavier.vueloseaai"
         minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 13
-        versionName "1.4.5.1709"
+        targetSdkVersion 28
+        versionCode 21
+        versionName "19.04.00"
         multiDexEnabled true
     }
     packagingOptions {
@@ -62,54 +63,59 @@ repositories {
 dependencies {
 
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
     //compile project(':library')
     //compile 'org.jsoup:jsoup:1.8.3'
+    implementation 'org.jsoup:jsoup:1.11.1'
     //compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
 
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
-    compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    apt 'com.jakewharton:butterknife-compiler:8.5.1'
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
 
-    compile 'io.reactivex.rxjava2:rxjava:2.0.7'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.5'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
 
-    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:4.2.4"
     // use kapt for kotlin apt
-    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:4.2.4"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:4.2.4"
 
 
-    //compile 'com.google.android.gms:play-services:9.0.2'
-    //compile 'com.google.android.gms:play-services-analytics:9.0.0'
-    compile 'org.glassfish:javax.annotation:10.0-b28'
+    //implementation 'com.google.android.gms:play-services:9.0.2'
+    //implementation 'com.google.android.gms:play-services-analytics:9.0.0'
+    //implementation 'org.glassfish:javax.annotation:10.0-b28'
 
-    compile 'com.google.firebase:firebase-core:10.2.6'
-    compile 'com.google.firebase:firebase-ads:10.2.6'
-    compile 'com.google.firebase:firebase-crash:10.2.6'
+    implementation 'com.google.firebase:firebase-core:17.2.2'
+    implementation 'com.google.firebase:firebase-ads:18.3.0'
+    implementation 'com.google.firebase:firebase-crash:16.2.1'
 
-    compile 'cn.pedant.sweetalert:library:1.3'
+    //implementation 'cn.pedant.sweetalert:library:1.3'
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 
-    compile 'com.android.support:multidex:1.0.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
 
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.android.support:cardview-v7:25.3.1'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.tuyenmonkey:mkloader:1.3.0'
-    compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
-    compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
+    implementation 'androidx.appcompat:appcompat:1.2.0-alpha01'
+    implementation 'com.google.android.material:material:1.2.0-alpha03'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    //implementation 'com.tuyenmonkey:mkloader:1.4.0'
+    implementation 'com.pixplicity.easyprefs:library:1.9.0@aar'
+    implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
 
-    //compile 'com.github.aakira:expandable-layout:1.4.3@aar'
-    compile 'com.anjlab.android.iab.v3:library:1.0.44'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true;
+    implementation 'com.wang.avi:library:2.1.3'
+
+    //implementation 'com.github.aakira:expandable-layout:1.4.3@aar'
+    implementation 'com.anjlab.android.iab.v3:library:1.1.0'
+
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
+        transitive = true
     }
-    compile('com.crashlytics.sdk.android:answers:1.3.13@aar') {
-        transitive = true;
+    implementation('com.crashlytics.sdk.android:answers:1.4.7@aar') {
+        transitive = true
     }
 
 }

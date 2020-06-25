@@ -1,6 +1,5 @@
 package com.edxavier.vueloseaai.database.model;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.raizlabs.android.dbflow.annotation.Database;

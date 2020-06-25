@@ -2,7 +2,7 @@ package com.edxavier.vueloseaai;
 
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.support.multidex.MultiDex;
+import androidx.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
@@ -34,7 +34,7 @@ public class EaaiApplication extends android.app.Application {
         Fabric.with(this, new Answers());
 
         FlowManager.init(new FlowConfig.Builder(this).build());
-        MobileAds.initialize(this, "ca-app-pub-9964109306515647~8960716619");
+        MobileAds.initialize(this, "c");
         new Prefs.Builder()
                 .setContext(this)
                 .setMode(ContextWrapper.MODE_PRIVATE)

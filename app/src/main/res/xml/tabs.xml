@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+
+    <tab
+        id="@+id/tab_llegadas"
+        icon="@drawable/ic_plane_landing"
+        title="@string/llegadass" />
+    <tab
+        id="@+id/tab_salidas"
+        icon="@drawable/ic_takeoff_the_plane"
+        title="@string/salidas" />
+</tabs>

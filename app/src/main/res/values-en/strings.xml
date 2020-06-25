@@ -7,7 +7,7 @@
     <string name="destino">Destination</string>
     <string name="hora">Time</string>
     <string name="internacionales">International</string>
-    <string name="linea">Air Line</string>
+    <string name="lineap">Air Line</string>
     <string name="llegadass">Arrivals</string>
     <string name="nacionales">National</string>
     <string name="nodata">It was not possible to obtain flight data, please try again</string>
@@ -173,6 +173,7 @@
     <string name="airport">International Airport  Augusto C. Sandino</string>
     <string name="purchased_msg">Thank you for supporting this application.</string>
     <string name="purchased_err_msg">Payment was not made</string>
+    <string name="publicidad">Advertising</string>
 
 
 </resources>
