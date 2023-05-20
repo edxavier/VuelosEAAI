@@ -1,0 +1,87 @@
+{
+  "project_info": {
+    "project_number": "616263766142",
+    "firebase_url": "https://apps-locales.firebaseio.com",
+    "project_id": "apps-locales",
+    "storage_bucket": "apps-locales.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616263766142:android:5e95bf3bfc34bfd1",
+        "android_client_info": {
+          "package_name": "com.edxavier.vueloseaai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616263766142-54g4epabptgm9h3iaavr9h0vd0s6m5p3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edxavier.vueloseaai",
+            "certificate_hash": "7297faf36126b95008408f76a0c8d763e7bd7bfd"
+          }
+        },
+        {
+          "client_id": "616263766142-l74u06h3ibtp45kel5mihubcc4qp36qq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edxavier.vueloseaai",
+            "certificate_hash": "a5d863cb83d34d00cdf6805094aa6786838c6a55"
+          }
+        },
+        {
+          "client_id": "616263766142-td1d70ulai5h80f29vhfr4pogbnvrj0b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMBzMQmLZfy8-2OvkkiaUNYIaCziJIKTs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616263766142-td1d70ulai5h80f29vhfr4pogbnvrj0b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-9964109306515647~8960716619"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616263766142:android:e61a22292cbf9ec2dd882f",
+        "android_client_info": {
+          "package_name": "com.resultados.loto.lotonicaragua"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616263766142-td1d70ulai5h80f29vhfr4pogbnvrj0b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMBzMQmLZfy8-2OvkkiaUNYIaCziJIKTs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616263766142-td1d70ulai5h80f29vhfr4pogbnvrj0b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-9964109306515647~2745407984"
+    }
+  ],
+  "configuration_version": "1"
+}
