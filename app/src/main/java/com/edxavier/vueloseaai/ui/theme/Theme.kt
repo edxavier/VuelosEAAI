@@ -3,11 +3,7 @@ package com.edxavier.vueloseaai.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
@@ -79,8 +75,21 @@ private val DarkColors = darkColorScheme(
     surfaceTint = md_theme_dark_surfaceTint,
     outlineVariant = md_theme_dark_outlineVariant,
     scrim = md_theme_dark_scrim,
-
 )
+val ColorScheme.confirmed: Color @Composable
+get() = if (!isSystemInDarkTheme()) md_theme_light_confirmed else md_theme_dark_confirmed
+
+val ColorScheme.arrived: Color @Composable
+get() = if (!isSystemInDarkTheme()) md_theme_light_arrived else md_theme_dark_arrived
+
+val ColorScheme.on_time: Color @Composable
+get() = if (!isSystemInDarkTheme()) md_theme_light_on_time else md_theme_dark_on_time
+
+val ColorScheme.canceled: Color @Composable
+get() = if (!isSystemInDarkTheme()) md_theme_light_canceled else md_theme_dark_canceled
+
+val ColorScheme.delayed: Color @Composable
+get() = if (!isSystemInDarkTheme()) md_theme_light_delayed else md_theme_dark_delayed
 
 
 @Composable
@@ -98,6 +107,7 @@ fun VuelosEAAITheme(
         darkTheme -> DarkColors
         else -> LightColors
     }
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {

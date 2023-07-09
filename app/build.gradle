@@ -9,14 +9,14 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     namespace 'com.edxavier.vueloseaai'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.edxavier.vueloseaai"
         minSdk 24
-        targetSdk 33
-        versionCode 24
-        versionName "3.0.0-2023.5-ve"
+        targetSdk 34
+        versionCode 25
+        versionName "3.0.1-2023.07-ve"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -59,13 +59,13 @@ dependencies {
             because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
         }
     }
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-    implementation 'androidx.activity:activity-compose:1.7.1'
+    implementation 'androidx.activity:activity-compose:1.7.2'
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.compose.material3:material3:1.1.0-rc01'
-    def nav_version = "2.5.3"
+    implementation 'androidx.compose.material3:material3:1.2.0-alpha03'
+    def nav_version = "2.6.0"
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
     testImplementation 'junit:junit:4.13.2'
@@ -85,7 +85,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-perf-ktx'
-    implementation "androidx.window:window:1.0.0-beta02"
+    implementation "androidx.window:window:1.2.0-alpha03"
 
-    implementation 'com.google.android.gms:play-services-ads:22.0.0'
+    implementation 'com.google.android.gms:play-services-ads:22.2.0'
 }

@@ -66,9 +66,20 @@ val md_theme_dark_scrim = Color(0xFF000000)
 
 
 
-val md_theme_light_confirmed = Color(0xFFFFCB2E)
-val md_theme_dark_confirmed = Color(0xFFD19D01)
+val md_theme_light_confirmed = Color(0xFF3F51B5)
+val md_theme_dark_confirmed = Color(0xFF2196F3)
 
+val md_theme_light_arrived = Color(0xFF217E25)
+val md_theme_dark_arrived = Color(0xFF8BC34A)
+
+val md_theme_light_canceled = Color(0xFFE91E63)
+val md_theme_dark_canceled = Color(0xFFF44336)
+
+val md_theme_light_on_time = Color(0xFFB66D00)
+val md_theme_dark_on_time = Color(0xFFFFC107)
+
+val md_theme_light_delayed = Color(0xFF673AB7)
+val md_theme_dark_delayed = Color(0xFF9C27B0)
 
 val seed = Color(0xFF303F9F)
 val purple = Color(0xFF9C27B0)

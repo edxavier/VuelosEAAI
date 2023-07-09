@@ -4,6 +4,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.edxavier.vueloseaai.ui.theme.*
 
 class FlightData(
     var logo: String,
@@ -15,6 +16,13 @@ class FlightData(
 ){
     @Composable
     fun statusColor(): Color{
-            return MaterialTheme.colorScheme.onPrimaryContainer
+        return when (status) {
+            "Confirmado", "Abordando" -> MaterialTheme.colorScheme.confirmed
+            "Arribó", "Despegó" -> MaterialTheme.colorScheme.arrived
+            "A Tiempo" -> MaterialTheme.colorScheme.on_time
+            "Cancelado" -> MaterialTheme.colorScheme.canceled
+            "Demorado" -> MaterialTheme.colorScheme.delayed
+            else -> MaterialTheme.colorScheme.onPrimaryContainer
+        }
     }
 }
