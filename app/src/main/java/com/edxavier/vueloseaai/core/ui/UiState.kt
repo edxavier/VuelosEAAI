@@ -6,5 +6,5 @@ import com.edxavier.vueloseaai.data.PageResult
 data class UiState (
     var isLoading:Boolean = true,
     var bannerLoadFail:Boolean = false,
-    var pageResult: PageResult = PageResult.Success("", listOf())
+    var pageResult: PageResult = PageResult.Success(listOf())
 )

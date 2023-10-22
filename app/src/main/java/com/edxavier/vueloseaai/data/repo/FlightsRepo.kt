@@ -1,7 +1,12 @@
 package com.edxavier.vueloseaai.data.repo
 
+import android.util.Log
+import com.edxavier.vueloseaai.core.FlightType
 import com.edxavier.vueloseaai.data.FlightData
 import com.edxavier.vueloseaai.data.PageResult
+import org.htmlunit.WebClient
+import org.htmlunit.html.HtmlPage
+import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.net.SocketTimeoutException
@@ -17,15 +22,23 @@ class FlightsRepo {
         return title
     }
 
-    fun getFlights(endpoint: String): PageResult {
+    fun getFlights(endpoint: String, flightType: FlightType): PageResult {
         val flights = mutableListOf<FlightData>()
+        Log.w("EDER","getFlights")
         try {
-            val doc = Jsoup.connect(endpoint).get()
+            val webClient = WebClient()
+            val myPage: HtmlPage = webClient.getPage(endpoint)
+            webClient.waitForBackgroundJavaScript(5000)
 
+            // val doc = Jsoup.connect(endpoint).get()
+            val doc = Jsoup.parse(myPage.asXml())
             val div = doc.getElementsByTag("div").first()
             val lastUpdate = getTitle(div)
-
-            val flightRows = doc.getElementsByTag("tr")
+            val divVuelos = doc.getElementById("vuelos")
+            var flightRows = arrayListOf<Element>()
+            divVuelos?.let {
+                flightRows = divVuelos.getElementsByTag("tr")
+            }
             if(flightRows.isNotEmpty())
                 flightRows.removeFirst()
             flightRows.forEach { data->
@@ -46,10 +59,10 @@ class FlightsRepo {
                 )
                 flights.add(flight)
             }
-            return PageResult.Success(
-                lastUpdate = lastUpdate,
-                flights = flights
-            )
+            if (flights.isEmpty()) {
+                return PageResult.Error("No hay resultados para mostrar")
+            }
+            return  PageResult.Success(flights)
         }
         catch (e: SocketTimeoutException){
             return PageResult.Timeout("Verifique su conexion de internet y vuelva a intentarlo.")

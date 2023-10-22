@@ -1,5 +1,6 @@
 package com.edxavier.vueloseaai.data
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.edxavier.vueloseaai.core.FlightType
@@ -11,6 +12,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
+import org.htmlunit.WebClient
+import org.htmlunit.html.HtmlPage
 
 class FlightsViewModel: ViewModel(){
     private val repo = FlightsRepo()
@@ -20,10 +24,10 @@ class FlightsViewModel: ViewModel(){
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    private fun setLoadingState(loading: Boolean = true){
+    private fun setLoadingState(){
         _uiState.update { state ->
             state.copy(
-                isLoading = loading
+                isLoading = true,
             )
         }
     }
@@ -35,8 +39,8 @@ class FlightsViewModel: ViewModel(){
             natEndpoints[pageIndex].endpointUrl
         }
         viewModelScope.launch(Dispatchers.IO) {
-            setLoadingState(true)
-            val res = repo.getFlights(endpoint)
+            setLoadingState()
+            val res = repo.getFlights(endpoint, flightType)
             _uiState.update { state ->
                 state.copy(
                     isLoading = false,

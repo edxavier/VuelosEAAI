@@ -3,6 +3,7 @@ package com.edxavier.vueloseaai
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,8 +15,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.WindowMetricsCalculator
 import com.edxavier.vueloseaai.data.FlightsViewModel
 import com.edxavier.vueloseaai.screens.MainScreen
+import com.edxavier.vueloseaai.screens.WebView
 import com.edxavier.vueloseaai.ui.theme.VuelosEAAITheme
 import com.google.android.gms.ads.AdSize
+import org.htmlunit.WebClient
+import org.htmlunit.html.HtmlPage
 
 class MainActivity : ComponentActivity() {
     lateinit var viewModel: FlightsViewModel
@@ -25,6 +29,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_VuelosEAAI)
         viewModel = ViewModelProvider(this)[FlightsViewModel::class.java]
+
         setContent {
             val navController = rememberNavController()
             VuelosEAAITheme {
@@ -33,6 +38,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    // WebView()
                     MainScreen(navController = navController, viewModel = viewModel, adSize = getAdSize())
                 }
             }

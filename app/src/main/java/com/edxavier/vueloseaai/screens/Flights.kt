@@ -1,5 +1,6 @@
 package com.edxavier.vueloseaai.screens
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,7 +35,6 @@ import kotlinx.coroutines.launch
 fun Flights(
     flightType: FlightType,
     viewModel: FlightsViewModel,
-    adSize: AdSize
 ) {
     val state by viewModel.uiState.collectAsState()
     val tabs = listOf(FlightDirection.Arrival, FlightDirection.Departure)
@@ -43,11 +43,8 @@ fun Flights(
         initialPageOffsetFraction = 0f
     ) { tabs.size }
     val listState = rememberLazyListState()
-
     Scaffold(
-
     ) { paddingValues ->
-
         LaunchedEffect(pagerState.currentPage) {
             viewModel.loadFlights(flightType, pagerState.currentPage)
         }
@@ -110,10 +107,10 @@ fun Flights(
                                     .fillMaxSize()
                                     .padding(horizontal = 1.dp, vertical = 2.dp),
                                 verticalArrangement = Arrangement.spacedBy(2.dp),
-                                state = listState,
+                                // state = listState,
                             ){
                                 items(items = result.flights){
-                                   Flight(data = it)
+                                    Flight(data = it)
                                 }
                             }
                         }

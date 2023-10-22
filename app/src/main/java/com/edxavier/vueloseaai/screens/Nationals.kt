@@ -10,7 +10,6 @@ import com.google.android.gms.ads.AdSize
 @Composable
 fun Nationals(
     viewModel: FlightsViewModel,
-    adSize: AdSize
 ) {
-    Flights(flightType = FlightType.National, viewModel = viewModel, adSize = adSize)
+    Flights(flightType = FlightType.National, viewModel = viewModel)
 }

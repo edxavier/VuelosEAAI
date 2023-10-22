@@ -11,8 +11,7 @@ import com.google.android.gms.ads.AdSize
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Internationals(
-    viewModel: FlightsViewModel,
-    adSize: AdSize
+    viewModel: FlightsViewModel
 ) {
-    Flights(flightType = FlightType.International, viewModel = viewModel, adSize = adSize)
+    Flights(flightType = FlightType.International, viewModel = viewModel)
 }

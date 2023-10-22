@@ -43,6 +43,6 @@ fun MainScreen(
         },
         bottomBar = { BottomNavBar(items = bottomNavItems, navController = navController) }
     ) { paddingValues->
-        NavigationHost(navController = navController, viewModel = viewModel, paddingValues, adSize = adSize)
+        NavigationHost(navController = navController, viewModel = viewModel, paddingValues)
     }
 }

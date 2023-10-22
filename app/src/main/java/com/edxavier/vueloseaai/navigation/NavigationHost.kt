@@ -12,6 +12,7 @@ import com.edxavier.vueloseaai.screens.Information
 import com.edxavier.vueloseaai.screens.Internationals
 import com.edxavier.vueloseaai.screens.Nationals
 import com.edxavier.vueloseaai.screens.Parking
+import com.edxavier.vueloseaai.screens.WebView
 import com.google.android.gms.ads.AdSize
 
 @Composable
@@ -19,7 +20,6 @@ fun NavigationHost(
     navController: NavHostController,
     viewModel: FlightsViewModel,
     paddingValues: PaddingValues,
-    adSize: AdSize
 ) {
     NavHost(
         navController = navController,
@@ -27,10 +27,10 @@ fun NavigationHost(
         modifier = Modifier.padding(paddingValues)
     ) {
         composable(Destinations.Internationals.route){
-            Internationals(viewModel, adSize)
+            Internationals(viewModel)
         }
         composable(Destinations.Nationals.route){
-            Nationals(viewModel, adSize)
+            Nationals(viewModel)
         }
         composable(Destinations.Information.route){
             Information()
