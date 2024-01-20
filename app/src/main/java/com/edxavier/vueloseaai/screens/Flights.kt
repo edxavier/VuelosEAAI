@@ -42,7 +42,7 @@ fun Flights(
         initialPage = 0,
         initialPageOffsetFraction = 0f
     ) { tabs.size }
-    val listState = rememberLazyListState()
+    // val listState = rememberLazyListState()
     Scaffold(
     ) { paddingValues ->
         LaunchedEffect(pagerState.currentPage) {
@@ -50,10 +50,10 @@ fun Flights(
         }
         Column(Modifier.padding(paddingValues)){
             val coroutineScope = rememberCoroutineScope()
-            TabRow(
+            PrimaryTabRow(
                 selectedTabIndex = pagerState.currentPage,
                 indicator = { tabPositions ->
-                    TabRowDefaults.Indicator(
+                    TabRowDefaults.SecondaryIndicator(
                         Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage])
                     )
                 }
@@ -113,9 +113,6 @@ fun Flights(
                                     Flight(data = it)
                                 }
                             }
-                        }
-                        else -> {
-
                         }
                     }
                 }

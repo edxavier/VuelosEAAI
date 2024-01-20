@@ -11,5 +11,6 @@ import com.google.android.gms.ads.AdSize
 fun Nationals(
     viewModel: FlightsViewModel,
 ) {
-    Flights(flightType = FlightType.National, viewModel = viewModel)
+    // Flights(flightType = FlightType.National, viewModel = viewModel)
+    WebView(viewModel.eaai_nac_url)
 }

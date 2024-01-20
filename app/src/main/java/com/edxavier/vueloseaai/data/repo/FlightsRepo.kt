@@ -1,12 +1,8 @@
 package com.edxavier.vueloseaai.data.repo
 
 import android.util.Log
-import com.edxavier.vueloseaai.core.FlightType
 import com.edxavier.vueloseaai.data.FlightData
 import com.edxavier.vueloseaai.data.PageResult
-import org.htmlunit.WebClient
-import org.htmlunit.html.HtmlPage
-import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.net.SocketTimeoutException
@@ -22,22 +18,22 @@ class FlightsRepo {
         return title
     }
 
-    fun getFlights(endpoint: String, flightType: FlightType): PageResult {
+    fun getFlights(endpoint: String): PageResult {
         val flights = mutableListOf<FlightData>()
-        Log.w("EDER","getFlights")
         try {
-            val webClient = WebClient()
-            val myPage: HtmlPage = webClient.getPage(endpoint)
-            webClient.waitForBackgroundJavaScript(5000)
+            // val webClient = WebClient(BrowserVersion.CHROME)
+            // webClient.waitForBackgroundJavaScript(5000)
+            // val myPage: HtmlPage = webClient.getPage(endpoint)
+            // webClient.waitForBackgroundJavaScript(5000)
 
-            // val doc = Jsoup.connect(endpoint).get()
-            val doc = Jsoup.parse(myPage.asXml())
-            val div = doc.getElementsByTag("div").first()
-            val lastUpdate = getTitle(div)
-            val divVuelos = doc.getElementById("vuelos")
+            val doc = Jsoup.connect(endpoint).get()
+            // val doc = Jsoup.parse(myPage.asXml())
+            // val div = doc.getElementsByTag("div").first()
+            // val lastUpdate = getTitle(div)
+            val divVuelos = doc.getElementsByTag("table")
             var flightRows = arrayListOf<Element>()
-            divVuelos?.let {
-                flightRows = divVuelos.getElementsByTag("tr")
+            if (divVuelos.size> 0){
+                flightRows = divVuelos[0].getElementsByTag("tr")
             }
             if(flightRows.isNotEmpty())
                 flightRows.removeFirst()
@@ -60,6 +56,7 @@ class FlightsRepo {
                 flights.add(flight)
             }
             if (flights.isEmpty()) {
+                throw Exception("No hay datos")
                 return PageResult.Error("No hay resultados para mostrar")
             }
             return  PageResult.Success(flights)
@@ -70,8 +67,8 @@ class FlightsRepo {
         catch (e: UnknownHostException){
             return PageResult.Error("No es posible acceder al servidor, verifique su conexion de internet y vuelva a intentarlo.")
         }
-        catch (e: Exception){
-            return PageResult.Error("Ha ocurrido un error inesperado: ${e.message}")
-        }
+        //catch (e: Exception){
+        //    return PageResult.Error("Ha ocurrido un error inesperado: ${e.message}")
+        //}
     }
 }

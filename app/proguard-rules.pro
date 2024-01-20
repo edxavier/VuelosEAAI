@@ -19,34 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--dontwarn com.sun.org.apache.xerces.internal.dom.DeferredDocumentImpl
--dontwarn com.sun.org.apache.xerces.internal.dom.DeferredNode
--dontwarn edu.umd.cs.findbugs.annotations.SuppressFBWarnings
--dontwarn java.beans.BeanDescriptor
--dontwarn java.beans.BeanInfo
--dontwarn java.beans.IntrospectionException
--dontwarn java.beans.Introspector
--dontwarn java.beans.PropertyDescriptor
--dontwarn javax.naming.InvalidNameException
--dontwarn javax.naming.NamingException
--dontwarn javax.naming.directory.Attribute
--dontwarn javax.naming.directory.Attributes
--dontwarn javax.naming.ldap.LdapName
--dontwarn javax.naming.ldap.Rdn
--dontwarn org.apache.xerces.dom.DeferredDocumentImpl
--dontwarn org.apache.xerces.dom.DeferredNode
--dontwarn org.bouncycastle.jsse.BCSSLParameters
--dontwarn org.bouncycastle.jsse.BCSSLSocket
--dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
--dontwarn org.conscrypt.Conscrypt$Version
--dontwarn org.conscrypt.Conscrypt
--dontwarn org.conscrypt.ConscryptHostnameVerifier
--dontwarn org.ietf.jgss.GSSContext
--dontwarn org.ietf.jgss.GSSCredential
--dontwarn org.ietf.jgss.GSSException
--dontwarn org.ietf.jgss.GSSManager
--dontwarn org.ietf.jgss.GSSName
--dontwarn org.ietf.jgss.Oid
--dontwarn org.openjsse.javax.net.ssl.SSLParameters
--dontwarn org.openjsse.javax.net.ssl.SSLSocket
--dontwarn org.openjsse.net.ssl.OpenJSSE
+# -keep class okhttp3.internal.** { *; }
+# -keep class org.htmlunit.** { *; }
+# -keep class ** { *; }

@@ -1,5 +1,6 @@
 package com.edxavier.vueloseaai.screens
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -13,5 +14,9 @@ import com.google.android.gms.ads.AdSize
 fun Internationals(
     viewModel: FlightsViewModel
 ) {
-    Flights(flightType = FlightType.International, viewModel = viewModel)
+    if(viewModel.scrape_vuelos_int) {
+        Flights(flightType = FlightType.International, viewModel = viewModel)
+    }else {
+        WebView(viewModel.eaai_int_url)
+    }
 }

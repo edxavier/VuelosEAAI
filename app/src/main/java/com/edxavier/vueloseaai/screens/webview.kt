@@ -6,13 +6,10 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.viewinterop.AndroidView
-import org.htmlunit.WebClient
-import org.htmlunit.html.HtmlPage
-
 
 @Composable
-fun WebView() {
-    val mUrl = "https://www.eaai.com.ni/fids/vuelos_fids.php"
+fun WebView(viewUrl: String) {
+    // val mUrl = "https://www.eaai.com.ni/fids/vuelos_fids.php"
 
     // Adding a WebView inside AndroidView
     // with layout as full screen
@@ -23,10 +20,13 @@ fun WebView() {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
             webViewClient = WebViewClient()
+
             settings.javaScriptEnabled = true
-            loadUrl(mUrl)
+            loadUrl(viewUrl)
+            loadUrl(viewUrl)
         }
     }, update = {
-        it.loadUrl(mUrl)
+        it.loadUrl(viewUrl)
+        it.loadUrl(viewUrl)
     })
 }
