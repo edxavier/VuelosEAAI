@@ -15,7 +15,7 @@ android {
         applicationId "com.edxavier.vueloseaai"
         minSdk 24
         targetSdk 34
-        versionCode 32
+        versionCode 34
         versionName "3.1.0-2024.1-ve"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
