@@ -2,6 +2,7 @@
     <string name="app_name">Vuelos EAAI</string>
     <string name="id_banner" translatable="false">ca-app-pub-9964109306515647/2914183013</string>
     <string name="id_open_ad" translatable="false">ca-app-pub-9964109306515647/9861410435</string>
+    <string name="id_interstitial_ad" translatable="false">ca-app-pub-9964109306515647/1608346433</string>
 
     <string name="id_banner_test" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="id_open_ad_test" translatable="false">ca-app-pub-3940256099942544/3419835294</string>

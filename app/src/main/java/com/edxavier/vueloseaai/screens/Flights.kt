@@ -51,12 +51,7 @@ fun Flights(
         Column(Modifier.padding(paddingValues)){
             val coroutineScope = rememberCoroutineScope()
             PrimaryTabRow(
-                selectedTabIndex = pagerState.currentPage,
-                indicator = { tabPositions ->
-                    TabRowDefaults.SecondaryIndicator(
-                        Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage])
-                    )
-                }
+                selectedTabIndex = pagerState.currentPage
             ) {
                 tabs.forEachIndexed { index, s ->
                     Tab(
