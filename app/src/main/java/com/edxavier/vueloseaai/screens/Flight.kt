@@ -19,10 +19,15 @@ import com.edxavier.vueloseaai.R
 import com.edxavier.vueloseaai.data.FlightData
 
 @Composable
-fun Flight(data: FlightData) {
+fun Flight(
+    data: FlightData,
+    onDetailsClick: ((flight:String) -> Unit)? = null,
+) {
 
     ElevatedCard(modifier = Modifier
-        .clickable {}
+        .clickable {
+            onDetailsClick?.let { it(data.flight) }
+        }
         .fillMaxWidth()
         .padding(horizontal = 8.dp, vertical = 4.dp),
         elevation = CardDefaults.cardElevation(

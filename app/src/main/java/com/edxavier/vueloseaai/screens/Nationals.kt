@@ -12,5 +12,5 @@ fun Nationals(
     viewModel: FlightsViewModel,
 ) {
     // Flights(flightType = FlightType.National, viewModel = viewModel)
-    WebView(viewModel.eaai_nac_url)
+    WebView(viewModel.eaai_nac_url, viewModel)
 }

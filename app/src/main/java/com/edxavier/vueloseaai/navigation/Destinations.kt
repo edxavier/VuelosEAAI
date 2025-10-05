@@ -7,4 +7,5 @@ sealed class Destinations (
     object Internationals: Destinations("internationals")
     object Information: Destinations("information")
     object Parking: Destinations("parking")
+    object FlightDetails: Destinations("details")
 }

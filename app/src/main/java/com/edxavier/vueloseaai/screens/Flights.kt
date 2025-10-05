@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.edxavier.vueloseaai.R
 import com.edxavier.vueloseaai.core.FlightDirection
 import com.edxavier.vueloseaai.core.FlightType
@@ -35,6 +36,7 @@ import kotlinx.coroutines.launch
 fun Flights(
     flightType: FlightType,
     viewModel: FlightsViewModel,
+    navCtrl: NavHostController
 ) {
     val state by viewModel.uiState.collectAsState()
     val tabs = listOf(FlightDirection.Arrival, FlightDirection.Departure)
@@ -105,7 +107,13 @@ fun Flights(
                                 // state = listState,
                             ){
                                 items(items = result.flights){
-                                    Flight(data = it)
+                                    Flight(
+                                        data = it,
+                                        onDetailsClick = { id ->
+                                            viewModel.flightId = id
+                                            navCtrl.navigate("details")
+                                        }
+                                    )
                                 }
                             }
                         }

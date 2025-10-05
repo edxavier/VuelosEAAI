@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.edxavier.vueloseaai.data.FlightsViewModel
 import com.edxavier.vueloseaai.screens.Information
+import com.edxavier.vueloseaai.screens.InternationalDetails
 import com.edxavier.vueloseaai.screens.Internationals
 import com.edxavier.vueloseaai.screens.Nationals
 import com.edxavier.vueloseaai.screens.Parking
@@ -27,7 +28,7 @@ fun NavigationHost(
         modifier = Modifier.padding(paddingValues)
     ) {
         composable(Destinations.Internationals.route){
-            Internationals(viewModel)
+            Internationals(viewModel, navController)
         }
         composable(Destinations.Nationals.route){
             Nationals(viewModel)
@@ -37,6 +38,9 @@ fun NavigationHost(
         }
         composable(Destinations.Parking.route){
             Parking()
+        }
+        composable(Destinations.FlightDetails.route){
+            InternationalDetails(viewModel)
         }
     }
 }

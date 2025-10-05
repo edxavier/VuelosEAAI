@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.edxavier.vueloseaai.core.FlightType
 import com.edxavier.vueloseaai.core.ui.UiState
 import com.edxavier.vueloseaai.data.repo.FlightsRepo
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.google.firebase.Firebase
+import com.google.firebase.remoteconfig.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,19 +25,21 @@ class FlightsViewModel: ViewModel(){
     private val intEndpoints = listOf(FlightsEndpoint.IntArrivals, FlightsEndpoint.IntDepartures)
 
     private val _uiState = MutableStateFlow(UiState())
+    var flightId: String = ""
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     init {
         getRemoteConfig()
     }
 
-    private fun setLoadingState(){
+    fun setLoadingState(loading: Boolean = true){
         _uiState.update { state ->
             state.copy(
-                isLoading = true,
+                isLoading = loading,
             )
         }
     }
+
     private fun getRemoteConfig(){
         try {
             val remoteConfig = Firebase.remoteConfig

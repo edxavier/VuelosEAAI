@@ -1,6 +1,8 @@
 package com.edxavier.vueloseaai.data.repo
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.edxavier.vueloseaai.data.FlightData
 import com.edxavier.vueloseaai.data.PageResult
 import org.jsoup.Jsoup
@@ -18,6 +20,7 @@ class FlightsRepo {
         return title
     }
 
+    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     fun getFlights(endpoint: String): PageResult {
         val flights = mutableListOf<FlightData>()
         try {
@@ -32,11 +35,11 @@ class FlightsRepo {
             // val lastUpdate = getTitle(div)
             val divVuelos = doc.getElementsByTag("table")
             var flightRows = arrayListOf<Element>()
-            if (divVuelos.size> 0){
+            if (divVuelos.isNotEmpty()){
                 flightRows = divVuelos[0].getElementsByTag("tr")
             }
             if(flightRows.isNotEmpty())
-                flightRows.removeFirst()
+               flightRows.removeAt(0)
             flightRows.forEach { data->
                 val cols = data.children()
                 var gate = ""
@@ -44,7 +47,7 @@ class FlightsRepo {
                     gate = "Puerta ${cols[5].html()}"
                 }
                 val imgEl = cols[0].children().first()
-                val imgUrl = if(imgEl != null) imgEl.attr("src") else ""
+                val imgUrl = imgEl?.attr("src") ?: ""
                 val flight = FlightData(
                     logo = imgUrl,
                     flight = cols[1].html(),
@@ -57,7 +60,6 @@ class FlightsRepo {
             }
             if (flights.isEmpty()) {
                 throw Exception("No hay datos")
-                return PageResult.Error("No hay resultados para mostrar")
             }
             return  PageResult.Success(flights)
         }
