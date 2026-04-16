@@ -44,77 +44,73 @@ fun Flights(
         initialPage = 0,
         initialPageOffsetFraction = 0f
     ) { tabs.size }
-    // val listState = rememberLazyListState()
-    Scaffold(
-    ) { paddingValues ->
-        LaunchedEffect(pagerState.currentPage) {
-            viewModel.loadFlights(flightType, pagerState.currentPage)
-        }
-        Column(Modifier.padding(paddingValues)){
-            val coroutineScope = rememberCoroutineScope()
-            PrimaryTabRow(
-                selectedTabIndex = pagerState.currentPage
-            ) {
-                tabs.forEachIndexed { index, s ->
-                    Tab(
-                        text = {
-                            Text(
-                                text = s.title,
-                                fontSize = 12.sp
-                            ) },
-                        selected = pagerState.currentPage == index,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(index)
-                            }
+    LaunchedEffect(pagerState.currentPage) {
+        viewModel.loadFlights(flightType, pagerState.currentPage)
+    }
+    Column(Modifier.fillMaxSize()){
+        val coroutineScope = rememberCoroutineScope()
+        PrimaryTabRow(
+            selectedTabIndex = pagerState.currentPage
+        ) {
+            tabs.forEachIndexed { index, s ->
+                Tab(
+                    text = {
+                        Text(
+                            text = s.title,
+                            fontSize = 12.sp
+                        ) },
+                    selected = pagerState.currentPage == index,
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(index)
                         }
-                    )
-                }
+                    }
+                )
             }
+        }
 
-            HorizontalPager(
-                state = pagerState,
-                modifier = Modifier.fillMaxSize(),
-            ) { _ ->
-                if(state.isLoading) {
-                    LoadingIndicator()
-                }else{
-                    when(val result = state.pageResult){
-                        is PageResult.Error -> {
-                            ErrorIndicator(
-                                title = "Aviso!",
-                                icon = ImageVector.vectorResource(
-                                    id = R.drawable.world_error
-                                ),
-                                description = result.message
-                            )
-                        }
-                        is PageResult.Timeout -> {
-                            ErrorIndicator(
-                                title = "Error de conexion",
-                                icon = ImageVector.vectorResource(
-                                    id = R.drawable.no_wifi
-                                ),
-                                description = result.message
-                            )
-                        }
-                        is PageResult.Success -> {
-                            LazyColumn(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(horizontal = 1.dp, vertical = 2.dp),
-                                verticalArrangement = Arrangement.spacedBy(2.dp),
-                                // state = listState,
-                            ){
-                                items(items = result.flights){
-                                    Flight(
-                                        data = it,
-                                        onDetailsClick = { id ->
-                                            viewModel.flightId = id
-                                            navCtrl.navigate("details")
-                                        }
-                                    )
-                                }
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxSize(),
+        ) { _ ->
+            if(state.isLoading) {
+                LoadingIndicator()
+            }else{
+                when(val result = state.pageResult){
+                    is PageResult.Error -> {
+                        ErrorIndicator(
+                            title = "Aviso!",
+                            icon = ImageVector.vectorResource(
+                                id = R.drawable.world_error
+                            ),
+                            description = result.message
+                        )
+                    }
+                    is PageResult.Timeout -> {
+                        ErrorIndicator(
+                            title = "Error de conexion",
+                            icon = ImageVector.vectorResource(
+                                id = R.drawable.no_wifi
+                            ),
+                            description = result.message
+                        )
+                    }
+                    is PageResult.Success -> {
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = 1.dp, vertical = 2.dp),
+                            verticalArrangement = Arrangement.spacedBy(2.dp),
+                            // state = listState,
+                        ){
+                            items(items = result.flights){
+                                Flight(
+                                    data = it,
+                                    onDetailsClick = { id ->
+                                        viewModel.flightId = id
+                                        navCtrl.navigate("details")
+                                    }
+                                )
                             }
                         }
                     }

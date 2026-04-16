@@ -27,7 +27,7 @@ fun Parking() {
             textAlign = TextAlign.Justify,
             style = MaterialTheme.typography.bodyMedium,
             text = "Los pasajeros que deseen dejar su vehículo estacionado en el Aeropuerto, mientras realizan su viaje, pueden solicitar el servicio al cajero de turno.\n" +
-                    "El costo por noche transcurrida asciende a US\$ 8.54 dólares.",
+                    "El costo por noche transcurrida asciende a US\$ 11.47 dólares.",
         )
         Spacer(Modifier.height(8.dp))
         Text(
@@ -53,7 +53,7 @@ fun Parking() {
             Text(
                 textAlign = TextAlign.Justify,
                 style = MaterialTheme.typography.bodyMedium,
-                text = "$1.13"
+                text = "$1.64"
             )
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -65,7 +65,7 @@ fun Parking() {
             Text(
                 textAlign = TextAlign.Justify,
                 style = MaterialTheme.typography.bodyMedium,
-                text = "$0.56"
+                text = "$0.82"
             )
         }
         Spacer(Modifier.height(8.dp))
@@ -84,7 +84,7 @@ fun Parking() {
             Text(
                 textAlign = TextAlign.Justify,
                 style = MaterialTheme.typography.bodyMedium,
-                text = "$2.84"
+                text = "$3.82"
             )
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -96,7 +96,7 @@ fun Parking() {
             Text(
                 textAlign = TextAlign.Justify,
                 style = MaterialTheme.typography.bodyMedium,
-                text = "$1.42"
+                text = "$1.91"
             )
         }
 
@@ -116,7 +116,7 @@ fun Parking() {
             Text(
                 textAlign = TextAlign.Justify,
                 style = MaterialTheme.typography.bodyMedium,
-                text = "$5.69"
+                text = "$7.65"
             )
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -128,7 +128,7 @@ fun Parking() {
             Text(
                 textAlign = TextAlign.Justify,
                 style = MaterialTheme.typography.bodyMedium,
-                text = "$2.84"
+                text = "$3.82"
             )
         }
 

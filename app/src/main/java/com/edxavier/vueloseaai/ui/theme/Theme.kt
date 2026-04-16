@@ -111,13 +111,19 @@ fun VuelosEAAITheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
+            val window = (view.context as Activity).window
+            // Si usas enableEdgeToEdge(), lo ideal es dejar el fondo transparente
+            // y dejar que el Scaffold maneje los colores.
+            // Pero si quieres forzar colores específicos:
+            window.statusBarColor = Color.Transparent.toArgb()
             if (darkTheme) {
-                (view.context as Activity).window.navigationBarColor = colorScheme.outlineVariant.toArgb()
-            }else{
-                (view.context as Activity).window.navigationBarColor = colorScheme.primary.toArgb()
+                window.navigationBarColor = colorScheme.outlineVariant.toArgb()
+            } else {
+                window.navigationBarColor = colorScheme.primary.toArgb()
             }
-            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
+            // CORRECCIÓN AQUÍ:
+            // Si NO es darkTheme (es tema claro), los iconos deben ser OSCUROS (true)
+            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = !darkTheme
         }
     }
 

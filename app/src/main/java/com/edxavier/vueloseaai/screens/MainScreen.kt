@@ -1,9 +1,12 @@
 package com.edxavier.vueloseaai.screens
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.navigation.NavHostController
@@ -39,7 +42,9 @@ fun MainScreen(
     )
     Scaffold(
         topBar = {
-            BannerAdView(adSize = adSize, isTest = BuildConfig.DEBUG)
+            Box(modifier = Modifier.statusBarsPadding()) {
+                BannerAdView(adSize = adSize, isTest = BuildConfig.DEBUG)
+            }
         },
         bottomBar = { BottomNavBar(items = bottomNavItems, navController = navController) }
     ) { paddingValues->
