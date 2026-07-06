@@ -10,11 +10,10 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
-import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsControllerCompat
 
 data class FlightStatusColors(
     val confirmed: Color,
@@ -163,13 +162,9 @@ fun VuelosEAAITheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = Color.Transparent.toArgb()
-            if (darkTheme) {
-                window.navigationBarColor = colorScheme.outlineVariant.toArgb()
-            } else {
-                window.navigationBarColor = colorScheme.primary.toArgb()
-            }
-            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = !darkTheme
+            val insets = WindowInsetsControllerCompat(window, view)
+            insets.isAppearanceLightStatusBars = !darkTheme
+            insets.isAppearanceLightNavigationBars = !darkTheme
         }
     }
 

@@ -1,6 +1,5 @@
 package com.edxavier.vueloseaai.core.ui
 
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -18,7 +17,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.edxavier.vueloseaai.BuildConfig
@@ -36,15 +37,14 @@ fun NativeAdCard(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val density = context.resources.displayMetrics.density
 
-    val adUnitId = if (BuildConfig.DEBUG) {
-        context.getString(R.string.id_native_ad_test)
-    } else {
-        context.getString(R.string.id_native_ad)
-    }
+    val adUnitId = stringResource(
+        if (BuildConfig.DEBUG) R.string.id_native_ad_test
+        else R.string.id_native_ad
+    )
 
     var nativeAd by remember { mutableStateOf<NativeAd?>(null) }
 
-    val adLoader = remember {
+    val adLoader = remember(context, adUnitId) {
         AdLoader.Builder(context, adUnitId)
             .forNativeAd { ad ->
                 nativeAd?.destroy()
@@ -67,8 +67,8 @@ fun NativeAdCard(modifier: Modifier = Modifier) {
     }
 
     nativeAd?.let { ad ->
-        val tertiaryColor = MaterialTheme.colorScheme.tertiary.hashCode()
-        val surfaceVariantColor = MaterialTheme.colorScheme.onSurfaceVariant.hashCode()
+        val headlineColor = MaterialTheme.colorScheme.tertiary.toArgb()
+        val bodyColor = MaterialTheme.colorScheme.onSurfaceVariant.toArgb()
 
         ElevatedCard(
             modifier = modifier
@@ -82,27 +82,21 @@ fun NativeAdCard(modifier: Modifier = Modifier) {
         ) {
             AndroidView(
                 factory = { ctx ->
-                    val headlineColor = tertiaryColor
-                    val bodyColor = surfaceVariantColor
+                    val iconSize = (48 * density).toInt()
+                    val marginPx = (12 * density).toInt()
+
                     NativeAdView(ctx).apply {
                         val contentLayout = LinearLayout(ctx).apply {
                             orientation = LinearLayout.HORIZONTAL
-                            setPadding(
-                                (12 * density).toInt(),
-                                (10 * density).toInt(),
-                                (12 * density).toInt(),
-                                (10 * density).toInt()
-                            )
+                            setPadding(marginPx, marginPx, marginPx, marginPx)
                         }
 
                         val iconView = ImageView(ctx).apply {
-                            val size = (44 * density).toInt()
-                            layoutParams = LinearLayout.LayoutParams(size, size).apply {
-                                setMargins(0, 0, (12 * density).toInt(), 0)
+                            layoutParams = LinearLayout.LayoutParams(iconSize, iconSize).apply {
+                                setMargins(0, 0, marginPx, 0)
                             }
                         }
                         this.iconView = iconView
-                        contentLayout.addView(iconView)
 
                         val textColumn = LinearLayout(ctx).apply {
                             orientation = LinearLayout.VERTICAL
@@ -114,31 +108,47 @@ fun NativeAdCard(modifier: Modifier = Modifier) {
                         val headlineView = TextView(ctx).apply {
                             setTextColor(headlineColor)
                             textSize = 16f
+                            maxLines = 1
                         }
                         this.headlineView = headlineView
-                        textColumn.addView(headlineView)
 
                         val bodyView = TextView(ctx).apply {
                             setTextColor(bodyColor)
                             textSize = 12f
+                            maxLines = 2
                         }
                         this.bodyView = bodyView
-                        textColumn.addView(bodyView)
 
-                        contentLayout.addView(textColumn)
+                        textColumn.addView(headlineView)
+                        textColumn.addView(bodyView)
 
                         val ctaButton = Button(ctx).apply {
                             textSize = 11f
+                            layoutParams = LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            ).apply {
+                                gravity = android.view.Gravity.CENTER_VERTICAL
+                                setMargins(marginPx, 0, 0, 0)
+                            }
                         }
-                        val ctaParams = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                        ).apply { gravity = android.view.Gravity.CENTER_VERTICAL }
                         this.callToActionView = ctaButton
-                        contentLayout.addView(ctaButton, ctaParams)
+
+                        contentLayout.addView(iconView)
+                        contentLayout.addView(textColumn)
+                        contentLayout.addView(ctaButton)
 
                         addView(contentLayout)
                         setNativeAd(ad)
+
+                        headlineView.text = ad.headline ?: ""
+                        bodyView.text = ad.body ?: ad.advertiser ?: ""
+                        ctaButton.text = ad.callToAction ?: ""
+                        ctaButton.visibility = if (ad.callToAction != null)
+                            android.view.View.VISIBLE
+                        else
+                            android.view.View.GONE
+                        ad.icon?.drawable?.let { iconView.setImageDrawable(it) }
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),

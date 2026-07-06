@@ -2,6 +2,8 @@ package com.edxavier.vueloseaai.screens
 
 import android.graphics.Bitmap
 import android.view.ViewGroup
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.*
@@ -94,13 +96,13 @@ fun WebView(viewUrl: String, viewModel: FlightsViewModel) {
 
                         override fun onReceivedError(
                             view: WebView?,
-                            errorCode: Int,
-                            description: String?,
-                            failingUrl: String?
+                            request: WebResourceRequest?,
+                            error: WebResourceError?
                         ) {
-                            super.onReceivedError(view, errorCode, description, failingUrl)
-                            errorMessage = description
-                            isLoading = false
+                            if (request?.isForMainFrame == true) {
+                                errorMessage = error?.description?.toString()
+                                isLoading = false
+                            }
                         }
                     }
                     settings.javaScriptEnabled = true

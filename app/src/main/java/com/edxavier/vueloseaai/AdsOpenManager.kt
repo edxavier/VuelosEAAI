@@ -5,9 +5,8 @@ import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -16,7 +15,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
 import java.util.*
 
-class AdsOpenManager(private val myApplication: BaseApp): LifecycleObserver, Application.ActivityLifecycleCallbacks {
+class AdsOpenManager(private val myApplication: BaseApp) : DefaultLifecycleObserver, Application.ActivityLifecycleCallbacks {
     private var appOpenAd: AppOpenAd? = null
     private var loadCallback: AppOpenAd.AppOpenAdLoadCallback? = null
     private var isShowingAd = false
@@ -28,8 +27,7 @@ class AdsOpenManager(private val myApplication: BaseApp): LifecycleObserver, App
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
+    override fun onStart(owner: LifecycleOwner) {
         showAdIfAvailable()
     }
 

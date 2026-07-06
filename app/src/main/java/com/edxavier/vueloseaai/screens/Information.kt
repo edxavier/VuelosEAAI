@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
 import com.edxavier.vueloseaai.BuildConfig
 import com.edxavier.vueloseaai.R
 import com.google.firebase.Firebase
@@ -77,7 +76,7 @@ fun Information() {
                         putExtra(Intent.EXTRA_SUBJECT, myContext.getString(R.string.app_name))
                         putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=${myContext.packageName}")
                     }
-                    startActivity(myContext, createChooser(intent, "Compartir app..."), null)
+                    myContext.startActivity(createChooser(intent, "Compartir app..."))
                 },
                 modifier = Modifier.weight(1f),
             ) {
@@ -95,10 +94,10 @@ fun Information() {
                     Firebase.analytics.logEvent("rate_app", null)
                     try {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${myContext.packageName}"))
-                        startActivity(myContext, intent, null)
+                        myContext.startActivity(intent)
                     } catch (_: Exception) {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=${myContext.packageName}"))
-                        startActivity(myContext, intent, null)
+                        myContext.startActivity(intent)
                     }
                 },
                 modifier = Modifier.weight(1f),

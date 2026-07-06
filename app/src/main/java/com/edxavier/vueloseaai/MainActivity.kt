@@ -3,7 +3,6 @@ package com.edxavier.vueloseaai
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.DisplayMetrics
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -52,13 +51,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun getAdSize(): AdSize {
-        val display = windowManager.defaultDisplay
-        val outMetrics = DisplayMetrics()
-        display.getMetrics(outMetrics)
-        val widthPixels = outMetrics.widthPixels.toFloat()
-        val density = outMetrics.density
-        val adWidth = (widthPixels / density).toInt()
+        val outMetrics = resources.displayMetrics
+        val adWidth = outMetrics.widthPixels
         return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth)
     }
 

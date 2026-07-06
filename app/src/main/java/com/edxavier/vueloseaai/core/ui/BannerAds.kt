@@ -23,7 +23,7 @@ fun BannerAdView(
     }
     val context = LocalContext.current
 
-    val adView = remember(adSize, unitId) {
+    val adView = remember(context, adSize, unitId) {
         AdView(context).apply {
             setAdSize(adSize)
             adUnitId = unitId
