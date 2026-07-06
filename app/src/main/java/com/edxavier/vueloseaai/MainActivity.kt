@@ -19,6 +19,8 @@ import com.edxavier.vueloseaai.screens.MainScreen
 import com.edxavier.vueloseaai.ui.theme.VuelosEAAITheme
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import kotlin.random.Random
@@ -27,6 +29,7 @@ import kotlin.random.Random
 class MainActivity : ComponentActivity() {
     lateinit var viewModel: FlightsViewModel
     private var mInterstitialAd: InterstitialAd? = null
+    private var isInterstitialLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -34,36 +37,32 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_VuelosEAAI)
         viewModel = ViewModelProvider(this)[FlightsViewModel::class.java]
+        viewModel.onShowInterstitial = { showInterstitial() }
         requestInterstitialAds()
         setContent {
             val navController = rememberNavController()
             VuelosEAAITheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    // WebView()
                     MainScreen(navController = navController, viewModel = viewModel, adSize = getAdSize())
                 }
             }
         }
     }
+
     private fun getAdSize(): AdSize {
-        //Determine the screen width to use for the ad width.
         val display = windowManager.defaultDisplay
         val outMetrics = DisplayMetrics()
         display.getMetrics(outMetrics)
         val widthPixels = outMetrics.widthPixels.toFloat()
         val density = outMetrics.density
-        //you can also pass your selected width here in dp
         val adWidth = (widthPixels / density).toInt()
-        //return the optimal size depends on your orientation (landscape or portrait)
         return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth)
     }
 
-    private fun showInterstitial() {
-
+    fun showInterstitial() {
         val sharedPreferences: SharedPreferences = this.getSharedPreferences("EaaiPrefs", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
@@ -79,24 +78,39 @@ class MainActivity : ComponentActivity() {
             editor.putInt("show_after", randomValue)
             editor.apply()
             mInterstitialAd?.show(this)
-
         }
-
     }
 
     private fun requestInterstitialAds() {
-        val adUnitId = resources.getString(R.string.id_interstitial_ad)
-        InterstitialAd.load(this, adUnitId, AdRequest.Builder().build(), object:
-            InterstitialAdLoadCallback(){
-            override fun onAdLoaded(p0: InterstitialAd) {
-                super.onAdLoaded(p0)
-                mInterstitialAd = p0
+        if (isInterstitialLoading) return
+        isInterstitialLoading = true
+
+        val adUnitId = if (BuildConfig.DEBUG) {
+            resources.getString(R.string.id_interstitial_ad_test)
+        } else {
+            resources.getString(R.string.id_interstitial_ad)
+        }
+
+        InterstitialAd.load(this, adUnitId, AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
+            override fun onAdLoaded(ad: InterstitialAd) {
+                isInterstitialLoading = false
+                mInterstitialAd = ad
+                ad.fullScreenContentCallback = object : FullScreenContentCallback() {
+                    override fun onAdDismissedFullScreenContent() {
+                        mInterstitialAd = null
+                        requestInterstitialAds()
+                    }
+
+                    override fun onAdFailedToShowFullScreenContent(error: com.google.android.gms.ads.AdError) {
+                        mInterstitialAd = null
+                        requestInterstitialAds()
+                    }
+                }
+            }
+
+            override fun onAdFailedToLoad(error: LoadAdError) {
+                isInterstitialLoading = false
             }
         })
-    }
-
-    override fun onPause() {
-        super.onPause()
-        showInterstitial()
     }
 }

@@ -6,6 +6,9 @@
 
     <string name="id_banner_test" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="id_open_ad_test" translatable="false">ca-app-pub-3940256099942544/3419835294</string>
+    <string name="id_interstitial_ad_test" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="id_native_ad_test" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="id_native_ad" translatable="false">ca-app-pub-9964109306515647/7818977936</string>
     <string name="admob_app_id">ca-app-pub-9964109306515647~8960716619</string>
 
 </resources>

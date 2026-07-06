@@ -20,6 +20,7 @@ class FlightsViewModel: ViewModel(){
     lateinit var eaai_nac_url: String
     lateinit var eaai_int_url: String
     var scrape_vuelos_int: Boolean = true
+    var onShowInterstitial: (() -> Unit)? = null
     private val repo = FlightsRepo()
     private val natEndpoints = listOf(FlightsEndpoint.NatArrivals, FlightsEndpoint.NatDepartures)
     private val intEndpoints = listOf(FlightsEndpoint.IntArrivals, FlightsEndpoint.IntDepartures)

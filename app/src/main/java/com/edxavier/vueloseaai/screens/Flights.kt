@@ -1,8 +1,8 @@
 package com.edxavier.vueloseaai.screens
 
-import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,6 +12,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -22,6 +23,7 @@ import com.edxavier.vueloseaai.core.FlightDirection
 import com.edxavier.vueloseaai.core.FlightType
 import com.edxavier.vueloseaai.core.ui.ErrorIndicator
 import com.edxavier.vueloseaai.core.ui.FlightSkeletonLoader
+import com.edxavier.vueloseaai.core.ui.NativeAdCard
 import com.edxavier.vueloseaai.data.FlightsViewModel
 import com.edxavier.vueloseaai.data.PageResult
 import com.edxavier.vueloseaai.navigation.Destinations
@@ -88,20 +90,35 @@ fun Flights(
             } else {
                 when (val result = state.pageResult) {
                     is PageResult.Error -> {
-                        ErrorIndicator(
-                            title = "Aviso!",
-                            icon = ImageVector.vectorResource(id = R.drawable.world_error),
-                            description = result.message
-                        )
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            ErrorIndicator(
+                                title = "Aviso!",
+                                icon = ImageVector.vectorResource(id = R.drawable.world_error),
+                                description = result.message,
+                                onRetry = { viewModel.loadFlights(flightType, page) }
+                            )
+                        }
                     }
                     is PageResult.Timeout -> {
-                        ErrorIndicator(
-                            title = "Error de conexion",
-                            icon = ImageVector.vectorResource(id = R.drawable.no_wifi),
-                            description = result.message
-                        )
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            ErrorIndicator(
+                                title = "Error de conexion",
+                                icon = ImageVector.vectorResource(id = R.drawable.no_wifi),
+                                description = result.message,
+                                onRetry = { viewModel.loadFlights(flightType, page) }
+                            )
+                        }
                     }
                     is PageResult.Success -> {
+                        val flights = result.flights
+                        val nativeAdInterval = 5
+
                         LazyColumn(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -109,25 +126,22 @@ fun Flights(
                             verticalArrangement = Arrangement.spacedBy(0.dp),
                         ) {
                             itemsIndexed(
-                                items = result.flights,
+                                items = flights,
                                 key = { _, flight -> "${flight.flight}_${flight.time}" }
                             ) { index, flight ->
-                                AnimatedVisibility(
-                                    visible = true,
-                                    enter = fadeIn() + slideInVertically(
-                                        initialOffsetY = { it / 4 }
-                                    )
-                                ) {
-                                    Flight(
-                                        data = flight,
-                                        onDetailsClick = { id ->
-                                            viewModel.flightId = id
-                                            navCtrl.navigate(
-                                                Destinations.FlightDetails.createRoute(id)
-                                            )
-                                        }
-                                    )
+                                if (index > 0 && index % nativeAdInterval == 0) {
+                                    NativeAdCard()
                                 }
+                                Flight(
+                                    data = flight,
+                                    onDetailsClick = { id ->
+                                        viewModel.flightId = id
+                                        viewModel.onShowInterstitial?.invoke()
+                                        navCtrl.navigate(
+                                            Destinations.FlightDetails.createRoute(id)
+                                        )
+                                    }
+                                )
                             }
                         }
                     }
