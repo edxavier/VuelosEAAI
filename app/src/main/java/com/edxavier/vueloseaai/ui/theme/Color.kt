@@ -64,33 +64,28 @@ val md_theme_dark_surfaceTint = Color(0xFFADC6FF)
 val md_theme_dark_outlineVariant = Color(0xFF44474F)
 val md_theme_dark_scrim = Color(0xFF000000)
 
-
 val seed = Color(0xFF1C4C96)
 
+val md_theme_light_confirmed = Color(0xFF2E5DA8)
+val md_theme_light_arrived = Color(0xFF1B7A37)
+val md_theme_light_on_time = Color(0xFF9A5D00)
+val md_theme_light_canceled = Color(0xFFC62828)
+val md_theme_light_delayed = Color(0xFFBF6A02)
 
-
-
-val md_theme_light_confirmed = Color(0xFF3F51B5)
-val md_theme_dark_confirmed = Color(0xFF2196F3)
-
-val md_theme_light_arrived = Color(0xFF217E25)
-val md_theme_dark_arrived = Color(0xFF8BC34A)
-
-val md_theme_light_canceled = Color(0xFFE91E63)
-val md_theme_dark_canceled = Color(0xFFF44336)
-
-val md_theme_light_on_time = Color(0xFFB66D00)
+val md_theme_dark_confirmed = Color(0xFF92B6FF)
+val md_theme_dark_arrived = Color(0xFF4BDC6C)
 val md_theme_dark_on_time = Color(0xFFFFC107)
+val md_theme_dark_canceled = Color(0xFFFF6B6B)
+val md_theme_dark_delayed = Color(0xFFFFB74D)
 
-val md_theme_light_delayed = Color(0xFF673AB7)
-val md_theme_dark_delayed = Color(0xFF9C27B0)
+val md_theme_light_confirmed_bg = Color(0xFFE5EDFF)
+val md_theme_light_arrived_bg = Color(0xFFE5F5E8)
+val md_theme_light_on_time_bg = Color(0xFFFFF4E0)
+val md_theme_light_canceled_bg = Color(0xFFFFEBEE)
+val md_theme_light_delayed_bg = Color(0xFFFFF3E0)
 
-val purple = Color(0xFF9C27B0)
-val light_purple = Color(0xFF9A25AE)
-val light_onpurple = Color(0xFFFFFFFF)
-val light_purpleContainer = Color(0xFFFFD6FE)
-val light_onpurpleContainer = Color(0xFF35003F)
-val dark_purple = Color(0xFFF9ABFF)
-val dark_onpurple = Color(0xFF570066)
-val dark_purpleContainer = Color(0xFF7B008F)
-val dark_onpurpleContainer = Color(0xFFFFD6FE)
+val md_theme_dark_confirmed_bg = Color(0xFF1A2E4A)
+val md_theme_dark_arrived_bg = Color(0xFF1A3A1E)
+val md_theme_dark_on_time_bg = Color(0xFF3D2E00)
+val md_theme_dark_canceled_bg = Color(0xFF4A1515)
+val md_theme_dark_delayed_bg = Color(0xFF4A2E00)

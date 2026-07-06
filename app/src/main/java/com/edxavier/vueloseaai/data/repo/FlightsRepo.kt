@@ -1,8 +1,5 @@
 package com.edxavier.vueloseaai.data.repo
 
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
 import com.edxavier.vueloseaai.data.FlightData
 import com.edxavier.vueloseaai.data.PageResult
 import org.jsoup.Jsoup
@@ -20,7 +17,6 @@ class FlightsRepo {
         return title
     }
 
-    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     fun getFlights(endpoint: String): PageResult {
         val flights = mutableListOf<FlightData>()
         try {

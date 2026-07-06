@@ -40,14 +40,21 @@ fun MainScreen(
             icon = Icons.Rounded.Info,
         )
     )
+
     Scaffold(
         topBar = {
             Box(modifier = Modifier.statusBarsPadding()) {
                 BannerAdView(adSize = adSize, isTest = BuildConfig.DEBUG)
             }
         },
-        bottomBar = { BottomNavBar(items = bottomNavItems, navController = navController) }
-    ) { paddingValues->
-        NavigationHost(navController = navController, viewModel = viewModel, paddingValues)
+        bottomBar = {
+            BottomNavBar(items = bottomNavItems, navController = navController)
+        }
+    ) { paddingValues ->
+        NavigationHost(
+            navController = navController,
+            viewModel = viewModel,
+            paddingValues = paddingValues
+        )
     }
 }

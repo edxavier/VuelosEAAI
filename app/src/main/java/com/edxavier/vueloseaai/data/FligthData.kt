@@ -1,10 +1,8 @@
 package com.edxavier.vueloseaai.data
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.edxavier.vueloseaai.ui.theme.*
+import com.edxavier.vueloseaai.ui.theme.LocalFlightStatusColors
 
 class FlightData(
     var logo: String,
@@ -13,16 +11,30 @@ class FlightData(
     var time: String,
     var status: String,
     var gate: String = ""
-){
+) {
     @Composable
-    fun statusColor(): Color{
+    fun statusColor(): Color {
+        val colors = LocalFlightStatusColors.current
         return when (status) {
-            "Confirmado", "Abordando" -> MaterialTheme.colorScheme.confirmed
-            "Arribó", "Despegó" -> MaterialTheme.colorScheme.arrived
-            "A Tiempo" -> MaterialTheme.colorScheme.on_time
-            "Cancelado" -> MaterialTheme.colorScheme.canceled
-            "Demorado" -> MaterialTheme.colorScheme.delayed
-            else -> MaterialTheme.colorScheme.onPrimaryContainer
+            "Confirmado", "Abordando" -> colors.confirmed
+            "Arribó", "Despegó" -> colors.arrived
+            "A Tiempo" -> colors.onTime
+            "Cancelado" -> colors.canceled
+            "Demorado" -> colors.delayed
+            else -> Color.Unspecified
+        }
+    }
+
+    @Composable
+    fun statusBgColor(): Color {
+        val colors = LocalFlightStatusColors.current
+        return when (status) {
+            "Confirmado", "Abordando" -> colors.confirmedBg
+            "Arribó", "Despegó" -> colors.arrivedBg
+            "A Tiempo" -> colors.onTimeBg
+            "Cancelado" -> colors.canceledBg
+            "Demorado" -> colors.delayedBg
+            else -> Color.Unspecified
         }
     }
 }
