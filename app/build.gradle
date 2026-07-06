@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.compose'
     id 'com.google.firebase.crashlytics'
     id 'com.google.firebase.firebase-perf'
@@ -15,8 +14,8 @@ android {
         applicationId "com.edxavier.vueloseaai"
         minSdk 24
         targetSdk 37
-        versionCode 38
-        versionName "3.2.0-2026.07-ve"
+        versionCode 39
+        versionName "3.2.1-2026.07-ve"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -37,8 +36,10 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
     }
 
     buildFeatures {
