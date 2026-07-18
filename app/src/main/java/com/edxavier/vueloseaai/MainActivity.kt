@@ -13,10 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
+import com.edxavier.vueloseaai.core.AdRequestProvider
 import com.edxavier.vueloseaai.data.FlightsViewModel
 import com.edxavier.vueloseaai.screens.MainScreen
 import com.edxavier.vueloseaai.ui.theme.VuelosEAAITheme
-import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
@@ -87,7 +87,7 @@ class MainActivity : ComponentActivity() {
             resources.getString(R.string.id_interstitial_ad)
         }
 
-        InterstitialAd.load(this, adUnitId, AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
+        InterstitialAd.load(this, adUnitId, AdRequestProvider.get(), object : InterstitialAdLoadCallback() {
             override fun onAdLoaded(ad: InterstitialAd) {
                 isInterstitialLoading = false
                 mInterstitialAd = ad

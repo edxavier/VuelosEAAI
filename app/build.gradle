@@ -14,8 +14,8 @@ android {
         applicationId "com.edxavier.vueloseaai"
         minSdk 24
         targetSdk 37
-        versionCode 39
-        versionName "3.2.1-2026.07-ve"
+        versionCode 40
+        versionName "3.2.2-2026.07-ve"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -85,4 +85,5 @@ dependencies {
 
     implementation "androidx.window:window:1.5.1"
     implementation 'com.google.android.gms:play-services-ads:25.4.0'
+    implementation 'com.google.ads.mediation:facebook:6.18.0.0'
 }

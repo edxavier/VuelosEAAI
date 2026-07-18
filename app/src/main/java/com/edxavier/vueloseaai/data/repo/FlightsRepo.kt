@@ -40,7 +40,7 @@ class FlightsRepo {
                 val cols = data.children()
                 var gate = ""
                 if(cols.size == 6){
-                    gate = "Puerta ${cols[5].html()}"
+                    gate = "Puerta ${cols[5].text()}"
                 }
                 val imgEl = cols[0].children().first()
                 val imgUrl = imgEl?.attr("src") ?: ""
@@ -49,7 +49,7 @@ class FlightsRepo {
                     flight = cols[1].html(),
                     origin = cols[2].html(),
                     time = cols[3].html(),
-                    status = cols[4].html(),
+                    status = cols[4].text(),
                     gate = gate,
                 )
                 flights.add(flight)

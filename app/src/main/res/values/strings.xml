@@ -11,4 +11,7 @@
     <string name="id_native_ad" translatable="false">ca-app-pub-9964109306515647/7818977936</string>
     <string name="admob_app_id">ca-app-pub-9964109306515647~8960716619</string>
 
+    <!-- Facebook App ID para Meta mediation (reemplazar con tu ID real, formato: fb + numero) -->
+    <string name="facebook_app_id" translatable="false">1665110961252199</string>
+
 </resources>

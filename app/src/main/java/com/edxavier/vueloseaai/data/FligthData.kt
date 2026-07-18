@@ -1,5 +1,6 @@
 package com.edxavier.vueloseaai.data
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.edxavier.vueloseaai.ui.theme.LocalFlightStatusColors
@@ -21,7 +22,7 @@ class FlightData(
             "A Tiempo" -> colors.onTime
             "Cancelado" -> colors.canceled
             "Demorado" -> colors.delayed
-            else -> Color.Unspecified
+            else -> MaterialTheme.colorScheme.onSurface
         }
     }
 
@@ -34,7 +35,7 @@ class FlightData(
             "A Tiempo" -> colors.onTimeBg
             "Cancelado" -> colors.canceledBg
             "Demorado" -> colors.delayedBg
-            else -> Color.Unspecified
+            else -> MaterialTheme.colorScheme.surfaceVariant
         }
     }
 }

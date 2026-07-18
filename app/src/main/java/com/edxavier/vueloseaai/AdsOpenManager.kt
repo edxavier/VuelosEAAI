@@ -8,6 +8,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.edxavier.vueloseaai.core.AdRequestProvider
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -60,8 +61,8 @@ class AdsOpenManager(private val myApplication: BaseApp) : DefaultLifecycleObser
     }
 
     /** Creates and returns ad request.  */
-    private val adRequest: AdRequest
-        get() = AdRequest.Builder().build()
+    private val adRequest
+        get() = AdRequestProvider.get()
 
     /** Utility method that checks if ad exists and can be shown.  */
     private val isAdAvailable: Boolean

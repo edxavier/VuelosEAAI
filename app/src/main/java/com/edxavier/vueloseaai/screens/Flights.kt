@@ -23,7 +23,7 @@ import com.edxavier.vueloseaai.core.FlightDirection
 import com.edxavier.vueloseaai.core.FlightType
 import com.edxavier.vueloseaai.core.ui.ErrorIndicator
 import com.edxavier.vueloseaai.core.ui.FlightSkeletonLoader
-import com.edxavier.vueloseaai.core.ui.NativeAdCard
+import com.edxavier.vueloseaai.core.ui.NativeAdWithFallback
 import com.edxavier.vueloseaai.data.FlightsViewModel
 import com.edxavier.vueloseaai.data.PageResult
 import com.edxavier.vueloseaai.navigation.Destinations
@@ -130,7 +130,7 @@ fun Flights(
                                 key = { _, flight -> "${flight.flight}_${flight.time}" }
                             ) { index, flight ->
                                 if (index > 0 && index % nativeAdInterval == 0) {
-                                    NativeAdCard()
+                                    NativeAdWithFallback()
                                 }
                                 Flight(
                                     data = flight,
