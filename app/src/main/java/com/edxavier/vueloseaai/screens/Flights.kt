@@ -117,7 +117,7 @@ fun Flights(
                     }
                     is PageResult.Success -> {
                         val flights = result.flights
-                        val nativeAdInterval = 5
+                        val nativeAdInterval = 6
 
                         LazyColumn(
                             modifier = Modifier

@@ -17,9 +17,6 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 
 class FlightsViewModel: ViewModel(){
-    lateinit var eaai_nac_url: String
-    lateinit var eaai_int_url: String
-    var scrape_vuelos_int: Boolean = true
     var onShowInterstitial: (() -> Unit)? = null
     private val repo = FlightsRepo()
     private val natEndpoints = listOf(FlightsEndpoint.NatArrivals, FlightsEndpoint.NatDepartures)
@@ -28,6 +25,15 @@ class FlightsViewModel: ViewModel(){
     private val _uiState = MutableStateFlow(UiState())
     var flightId: String = ""
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
+
+    private val _eaaiNacUrl = MutableStateFlow("https://www.eaai.com.ni/pvnac/vuelos_dias_pvnac.php")
+    val eaaiNacUrl: StateFlow<String> = _eaaiNacUrl.asStateFlow()
+
+    private val _eaaiIntUrl = MutableStateFlow("https://www.eaai.com.ni/fids/vuelos_dias_fids.php")
+    val eaaiIntUrl: StateFlow<String> = _eaaiIntUrl.asStateFlow()
+
+    private val _scrapeVuelosInt = MutableStateFlow(true)
+    val scrapeVuelosInt: StateFlow<Boolean> = _scrapeVuelosInt.asStateFlow()
 
     init {
         getRemoteConfig()
@@ -54,18 +60,14 @@ class FlightsViewModel: ViewModel(){
                 )
             )
 
-            eaai_int_url = remoteConfig.getString("eaai_int_url")
-            eaai_nac_url = remoteConfig.getString("eaai_nac_url")
-            scrape_vuelos_int = remoteConfig.getBoolean("scrape_vuelos_int")
-
             remoteConfig.fetchAndActivate().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    eaai_int_url = remoteConfig.getString("eaai_int_url")
-                    eaai_nac_url = remoteConfig.getString("eaai_nac_url")
-                    scrape_vuelos_int = remoteConfig.getBoolean("scrape_vuelos_int")
+                    _eaaiIntUrl.value = remoteConfig.getString("eaai_int_url")
+                    _eaaiNacUrl.value = remoteConfig.getString("eaai_nac_url")
+                    _scrapeVuelosInt.value = remoteConfig.getBoolean("scrape_vuelos_int")
                 }
             }
-        }catch (e:Exception){}
+        }catch (_: Exception){}
     }
 
     fun loadFlights(flightType: FlightType, pageIndex: Int){

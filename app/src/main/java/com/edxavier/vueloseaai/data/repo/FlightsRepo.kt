@@ -4,6 +4,7 @@ import com.edxavier.vueloseaai.data.FlightData
 import com.edxavier.vueloseaai.data.PageResult
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
+import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
@@ -64,6 +65,9 @@ class FlightsRepo {
         }
         catch (e: UnknownHostException){
             return PageResult.Error("No es posible acceder al servidor, verifique su conexion de internet y vuelva a intentarlo.")
+        }
+        catch (e: IOException){
+            return PageResult.Error("Error de conexion al servidor, intente de nuevo.")
         }
         //catch (e: Exception){
         //    return PageResult.Error("Ha ocurrido un error inesperado: ${e.message}")

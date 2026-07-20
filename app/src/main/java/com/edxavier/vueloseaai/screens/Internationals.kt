@@ -1,14 +1,12 @@
 package com.edxavier.vueloseaai.screens
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
-import com.edxavier.vueloseaai.core.FlightDirection
 import com.edxavier.vueloseaai.core.FlightType
 import com.edxavier.vueloseaai.data.FlightsViewModel
-import com.google.android.gms.ads.AdSize
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -16,9 +14,12 @@ fun Internationals(
     viewModel: FlightsViewModel,
     navCtrl: NavHostController
 ) {
-    if(viewModel.scrape_vuelos_int) {
+    val scrapeVuelosInt by viewModel.scrapeVuelosInt.collectAsState()
+    val eaaiIntUrl by viewModel.eaaiIntUrl.collectAsState()
+
+    if (scrapeVuelosInt) {
         Flights(flightType = FlightType.International, viewModel = viewModel, navCtrl = navCtrl)
-    }else {
-        WebView(viewModel.eaai_int_url, viewModel)
+    } else {
+        WebView(eaaiIntUrl, viewModel)
     }
 }

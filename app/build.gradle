@@ -14,8 +14,8 @@ android {
         applicationId "com.edxavier.vueloseaai"
         minSdk 24
         targetSdk 37
-        versionCode 40
-        versionName "3.2.2-2026.07-ve"
+        versionCode 41
+        versionName "3.2.3-2026.07-ve"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

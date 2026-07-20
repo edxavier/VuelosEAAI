@@ -32,9 +32,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
+        setTheme(R.style.Theme_VuelosEAAI)
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_VuelosEAAI)
         viewModel = ViewModelProvider(this)[FlightsViewModel::class.java]
         viewModel.onShowInterstitial = { showInterstitial() }
         requestInterstitialAds()
@@ -51,11 +51,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Suppress("DEPRECATION")
     private fun getAdSize(): AdSize {
-        val outMetrics = resources.displayMetrics
-        val adWidth = outMetrics.widthPixels
-        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth)
+        val displayMetrics = resources.displayMetrics
+        val adWidthDp = (displayMetrics.widthPixels / displayMetrics.density).toInt()
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidthDp)
     }
 
     fun showInterstitial() {
