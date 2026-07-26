@@ -34,7 +34,7 @@ fun BannerAdView(
                     Log.w("BannerAd", "Failed: ${error.message}, code: ${error.code}")
                 }
                 override fun onAdLoaded() {
-                    Log.i("BannerAd", "Loaded successfully")
+                    Log.i("BannerAd", "Loaded — mediation: ${responseInfo?.mediationAdapterClassName}")
                 }
             }
             loadAd(AdRequestProvider.get())

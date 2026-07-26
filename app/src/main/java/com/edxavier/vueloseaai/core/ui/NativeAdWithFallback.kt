@@ -17,7 +17,7 @@ fun NativeAdWithFallback(
 
     if (showBanner) {
         BannerAdView(
-            adSize = AdSize.FLUID,
+            adSize = AdSize.MEDIUM_RECTANGLE,
             isTest = BuildConfig.DEBUG,
         )
     } else {

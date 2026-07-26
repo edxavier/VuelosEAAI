@@ -51,11 +51,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun getAdSize(): AdSize {
-        val displayMetrics = resources.displayMetrics
-        val adWidthDp = (displayMetrics.widthPixels / displayMetrics.density).toInt()
-        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidthDp)
-    }
+    private fun getAdSize(): AdSize = AdSize.BANNER
 
     fun showInterstitial() {
         val sharedPreferences: SharedPreferences = this.getSharedPreferences("EaaiPrefs", Context.MODE_PRIVATE)
