@@ -10,6 +10,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Space
 import android.widget.TextView
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,12 +33,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -49,19 +49,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.graphics.toColorInt
 import com.edxavier.vueloseaai.BuildConfig
 import com.edxavier.vueloseaai.R
-import com.edxavier.vueloseaai.core.AdRequestProvider
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdLoader
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.VideoOptions
-import com.google.android.gms.ads.nativead.AdChoicesView
-import com.google.android.gms.ads.nativead.MediaView
-import com.google.android.gms.ads.nativead.NativeAd
-import com.google.android.gms.ads.nativead.NativeAdOptions
-import com.google.android.gms.ads.nativead.NativeAdView
-import androidx.core.graphics.toColorInt
+import com.google.android.libraries.ads.mobile.sdk.common.LoadAdError
+import com.google.android.libraries.ads.mobile.sdk.nativead.MediaView
+import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAd
+import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdLoader
+import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdLoaderCallback
+import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdRequest
+import com.google.android.libraries.ads.mobile.sdk.nativead.NativeAdView
 
 private fun starString(rating: Double): String {
     val full = rating.toInt().coerceIn(0, 5)
@@ -75,6 +72,10 @@ fun NativeAdCard(
     onAdFailed: () -> Unit = {}
 ) {
     val context = LocalContext.current
+    val isInitialized = (context.applicationContext as? com.edxavier.vueloseaai.BaseApp)?.isAdsInitialized ?: false
+    
+    if (!isInitialized) return
+
     val density = context.resources.displayMetrics.density
 
     val adUnitId = stringResource(
@@ -89,35 +90,23 @@ fun NativeAdCard(
         if (hasFailed) onAdFailed()
     }
 
-    val adLoader = remember(context, adUnitId) {
-        AdLoader.Builder(context, adUnitId)
-            .forNativeAd { ad ->
-                Log.d("NativeAd", "Mediation winner: ${ad.responseInfo?.mediationAdapterClassName}")
-                nativeAd?.destroy()
+    DisposableEffect(context, adUnitId) {
+        val adRequest = NativeAdRequest.Builder(
+            adUnitId,
+            listOf(NativeAd.NativeAdType.NATIVE)
+        ).build()
+
+        NativeAdLoader.load(adRequest, object : NativeAdLoaderCallback {
+            override fun onNativeAdLoaded(ad: NativeAd) {
                 nativeAd = ad
             }
-            .withAdListener(object : AdListener() {
-                override fun onAdFailedToLoad(error: LoadAdError) {
-                    Log.w("NativeAd", "Failed: ${error.message}, code: ${error.code}")
-                    hasFailed = true
-                }
-            })
-            .withNativeAdOptions(
-                NativeAdOptions.Builder()
-                    .setAdChoicesPlacement(NativeAdOptions.ADCHOICES_TOP_RIGHT)
-                    .setRequestCustomMuteThisAd(true)
-                    .setVideoOptions(
-                        VideoOptions.Builder()
-                            .setStartMuted(true)
-                            .build()
-                    )
-                    .build()
-            )
-            .build()
-    }
 
-    DisposableEffect(Unit) {
-        adLoader.loadAd(AdRequestProvider.get())
+            override fun onAdFailedToLoad(error: LoadAdError) {
+                Log.w("NativeAd", "Failed: ${error.message}, code: ${error.code}")
+                hasFailed = true
+            }
+        })
+
         onDispose { nativeAd?.destroy() }
     }
 
@@ -158,7 +147,7 @@ fun NativeAdCard(
                         val gapMd = (8 * density).toInt()
                         val mediaSize = (120 * density).toInt()
                         val iconSize = (36 * density).toInt()
-                        val hasMedia = ad.mediaContent != null
+                        
                         val hasAdvertiser = !ad.advertiser.isNullOrBlank()
                         val hasBody = !ad.body.isNullOrBlank()
                         val starRating = ad.starRating
@@ -177,22 +166,19 @@ fun NativeAdCard(
                                 orientation = LinearLayout.HORIZONTAL
                             }
 
-                            // --- Left: Media (if present) ---
-                            if (hasMedia) {
-                                val mediaView = MediaView(ctx).apply {
-                                    layoutParams = LinearLayout.LayoutParams(mediaSize, mediaSize).apply {
-                                        setMargins(0, 0, gapMd, 0)
-                                    }
-                                    clipToOutline = true
-                                    outlineProvider = object : ViewOutlineProvider() {
-                                        override fun getOutline(view: View, outline: Outline) {
-                                            outline.setRoundRect(0, 0, view.width, view.height, 8 * density)
-                                        }
+                            // --- Left: Media ---
+                            val mediaView = MediaView(ctx).apply {
+                                layoutParams = LinearLayout.LayoutParams(mediaSize, mediaSize).apply {
+                                    setMargins(0, 0, gapMd, 0)
+                                }
+                                clipToOutline = true
+                                outlineProvider = object : ViewOutlineProvider() {
+                                    override fun getOutline(view: View, outline: Outline) {
+                                        outline.setRoundRect(0, 0, view.width, view.height, 8 * density)
                                     }
                                 }
-                                this@apply.mediaView = mediaView
-                                topRow.addView(mediaView)
                             }
+                            topRow.addView(mediaView)
 
                             // --- Right: Text column ---
                             val textColumn = LinearLayout(ctx).apply {
@@ -302,14 +288,22 @@ fun NativeAdCard(
                             content.addView(topRow)
                             addView(content)
 
-                            // --- Overlay: Ad badge top-right ---
-                            val adChoices = AdChoicesView(ctx)
-                            val adChoicesSize = (16 * density).toInt()
-                            adChoices.layoutParams = LinearLayout.LayoutParams(adChoicesSize, adChoicesSize)
-
-                            val adBadge = LinearLayout(ctx).apply {
-                                orientation = LinearLayout.HORIZONTAL
-                                gravity = Gravity.CENTER_VERTICAL
+                            // --- Overlay: Ad badge ---
+                            val adBadge = TextView(ctx).apply {
+                                text = "Ad"
+                                textSize = 9f
+                                setTextColor(adBadgeText)
+                                gravity = Gravity.CENTER
+                                background = android.graphics.drawable.GradientDrawable().apply {
+                                    setColor(adBadgeBg)
+                                    cornerRadius = 3 * density
+                                }
+                                setPadding(
+                                    (5 * density).toInt(),
+                                    (2 * density).toInt(),
+                                    (5 * density).toInt(),
+                                    (2 * density).toInt()
+                                )
                                 layoutParams = FrameLayout.LayoutParams(
                                     FrameLayout.LayoutParams.WRAP_CONTENT,
                                     FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -317,35 +311,12 @@ fun NativeAdCard(
                                 ).apply {
                                     setMargins(0, gapXs, gapXs, 0)
                                 }
-                                val label = TextView(ctx).apply {
-                                    text = "Ad"
-                                    textSize = 9f
-                                    setTextColor(adBadgeText)
-                                    gravity = Gravity.CENTER
-                                    background = android.graphics.drawable.GradientDrawable().apply {
-                                        setColor(adBadgeBg)
-                                        cornerRadius = 3 * density
-                                    }
-                                    setPadding(
-                                        (5 * density).toInt(),
-                                        (2 * density).toInt(),
-                                        (5 * density).toInt(),
-                                        (2 * density).toInt()
-                                    )
-                                }
-                                addView(label)
-                                val dot = Space(ctx).apply {
-                                    layoutParams = LinearLayout.LayoutParams(
-                                        (2 * density).toInt(), 0
-                                    )
-                                }
-                                addView(dot)
-                                addView(adChoices)
                             }
                             addView(adBadge)
 
-                            if (!hasMedia && ad.icon != null) {
+                            if (ad.icon != null) {
                                 val iconView = ImageView(ctx).apply {
+                                    setImageDrawable(ad.icon!!.drawable)
                                     layoutParams = LinearLayout.LayoutParams(iconSize, iconSize).apply {
                                         setMargins(0, 0, gapMd, 0)
                                     }
@@ -360,7 +331,7 @@ fun NativeAdCard(
                                 topRow.addView(iconView, 0)
                             }
 
-                            setNativeAd(ad)
+                            registerNativeAd(ad, mediaView)
                         }
                     },
                     modifier = Modifier.fillMaxWidth(),

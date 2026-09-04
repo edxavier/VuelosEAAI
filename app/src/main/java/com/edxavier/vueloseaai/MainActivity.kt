@@ -3,6 +3,7 @@ package com.edxavier.vueloseaai
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -12,32 +13,52 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import com.edxavier.vueloseaai.core.AdRequestProvider
+import com.edxavier.vueloseaai.core.GoogleMobileAdsConsentManager
 import com.edxavier.vueloseaai.data.FlightsViewModel
 import com.edxavier.vueloseaai.screens.MainScreen
 import com.edxavier.vueloseaai.ui.theme.VuelosEAAITheme
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.libraries.ads.mobile.sdk.MobileAds
+import com.google.android.libraries.ads.mobile.sdk.common.RequestConfiguration
+import com.google.android.libraries.ads.mobile.sdk.initialization.InitializationConfig
+import com.google.android.libraries.ads.mobile.sdk.interstitial.InterstitialAdPreloader
+import com.google.android.libraries.ads.mobile.sdk.interstitial.InterstitialAdEventCallback
+import com.google.android.libraries.ads.mobile.sdk.common.PreloadConfiguration
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.random.Random
 
 
 class MainActivity : ComponentActivity() {
     lateinit var viewModel: FlightsViewModel
-    private var mInterstitialAd: InterstitialAd? = null
-    private var isInterstitialLoading = false
+    private lateinit var consentManager: GoogleMobileAdsConsentManager
+    private val isMobileAdsInitializeCalled = AtomicBoolean(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-        setTheme(R.style.Theme_VuelosEAAI)
+        setTheme(R.style.Theme_App_Starting)
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[FlightsViewModel::class.java]
         viewModel.onShowInterstitial = { showInterstitial() }
-        requestInterstitialAds()
+
+        consentManager = GoogleMobileAdsConsentManager(this)
+        consentManager.gatherConsent(this) { error ->
+            if (error != null) {
+                Log.w("AdMob", "${error.errorCode}: ${error.message}")
+            }
+            if (consentManager.canRequestAds) {
+                initializeMobileAdsSdk()
+            }
+        }
+
+        if (consentManager.canRequestAds) {
+            initializeMobileAdsSdk()
+        }
+
         setContent {
             val navController = rememberNavController()
             VuelosEAAITheme {
@@ -45,15 +66,36 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen(navController = navController, viewModel = viewModel, adSize = getAdSize())
+                    MainScreen(navController = navController, viewModel = viewModel)
                 }
             }
         }
     }
 
-    private fun getAdSize(): AdSize = AdSize.BANNER
+    private fun initializeMobileAdsSdk() {
+        if (isMobileAdsInitializeCalled.getAndSet(true)) {
+            return
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val appId = getString(R.string.admob_app_id)
+            val requestConfig = RequestConfiguration.Builder()
+                .setTestDeviceIds(listOf("2391D45C5FBB101C3B5A692B3E866DFB"))
+                .build()
+            val config = InitializationConfig.Builder(appId)
+                .setRequestConfiguration(requestConfig)
+                .build()
+
+            MobileAds.initialize(this@MainActivity, config) {
+                (application as? BaseApp)?.isAdsInitialized = true
+                requestInterstitialAds()
+                (application as? BaseApp)?.appOpenManager?.fetchAd()
+            }
+        }
+    }
 
     fun showInterstitial() {
+        if (!(application as BaseApp).isAdsInitialized) return
         val sharedPreferences: SharedPreferences = this.getSharedPreferences("EaaiPrefs", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
@@ -68,40 +110,33 @@ class MainActivity : ComponentActivity() {
             val randomValue = Random.nextInt(min, max + 1)
             editor.putInt("show_after", randomValue)
             editor.apply()
-            mInterstitialAd?.show(this)
+            
+            val adUnitId = if (BuildConfig.DEBUG) {
+                resources.getString(R.string.id_interstitial_ad_test)
+            } else {
+                resources.getString(R.string.id_interstitial_ad)
+            }
+            
+            val ad = InterstitialAdPreloader.pollAd(adUnitId)
+            ad?.let {
+                it.adEventCallback = object : InterstitialAdEventCallback {
+                    override fun onAdDismissedFullScreenContent() {
+                        // Preloader automatically refills the cache
+                    }
+                }
+                it.show(this@MainActivity)
+            }
         }
     }
 
     private fun requestInterstitialAds() {
-        if (isInterstitialLoading) return
-        isInterstitialLoading = true
-
         val adUnitId = if (BuildConfig.DEBUG) {
             resources.getString(R.string.id_interstitial_ad_test)
         } else {
             resources.getString(R.string.id_interstitial_ad)
         }
-
-        InterstitialAd.load(this, adUnitId, AdRequestProvider.get(), object : InterstitialAdLoadCallback() {
-            override fun onAdLoaded(ad: InterstitialAd) {
-                isInterstitialLoading = false
-                mInterstitialAd = ad
-                ad.fullScreenContentCallback = object : FullScreenContentCallback() {
-                    override fun onAdDismissedFullScreenContent() {
-                        mInterstitialAd = null
-                        requestInterstitialAds()
-                    }
-
-                    override fun onAdFailedToShowFullScreenContent(error: com.google.android.gms.ads.AdError) {
-                        mInterstitialAd = null
-                        requestInterstitialAds()
-                    }
-                }
-            }
-
-            override fun onAdFailedToLoad(error: LoadAdError) {
-                isInterstitialLoading = false
-            }
-        })
+        
+        val preloadConfig = PreloadConfiguration(AdRequestProvider.get(adUnitId))
+        InterstitialAdPreloader.start(adUnitId, preloadConfig)
     }
 }
